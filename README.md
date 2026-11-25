@@ -1,0 +1,52 @@
+# LSE Video
+
+Investigación abierta para representar lengua de signos española (LSE) mediante vídeo fotorrealista 2D, con una futura integración en OBS/Twitch.
+
+**Estado: preparación de datos.** Hoy el repositorio contiene un auditor de anotaciones ELAN. No genera vídeo, no traduce voz a LSE y no incluye modelos entrenados. No hay todavía una evaluación de comprensión con personas signantes.
+
+## Primer experimento
+
+Comprobar si un generador existente puede reproducir movimientos de vídeos de LSE sin alterar manos, rostro ni significado. Comparar original, poses estimadas y resultado generado antes de desarrollar traducción libre o personalización de identidad.
+
+1. Revisar tres segmentos de vídeos con traducción al castellano y condiciones de uso conocidas.
+2. Extraer movimientos y revisar oclusiones, contactos, orientación de manos y expresiones.
+3. Evaluar un generador existente con apariencia fija, tras comprobar licencia de código y pesos.
+4. Comparar fidelidad técnica y comprensión con personas sordas signantes y especialistas de LSE.
+5. Solo después investigar apariencia personalizable, castellano hablado y emisión en directo.
+
+Un esqueleto parecido no demuestra una traducción correcta. Este experimento de reproducción no es un intérprete ni una herramienta de consejo sanitario.
+
+## Qué se puede ejecutar hoy
+
+Requiere Python 3.10 o posterior; solo biblioteca estándar. El script no descarga archivos, no carga modelos ni realiza llamadas a IA.
+
+El corpus de referencia es [LSE-Health-UVigo](https://zenodo.org/records/10234465), de Alba-Castro y colaboradores. Obtener `ELAN-LSE-Health-UVigo.zip` de la fuente oficial conforme a sus condiciones, y guardarlo localmente como `datos/anotaciones.zip`.
+
+```sh
+mkdir -p datos
+python3 auditar_anotaciones.py
+```
+
+O indicar rutas propias:
+
+```sh
+python3 auditar_anotaciones.py --zip /ruta/anotaciones.zip --output /ruta/auditoria.json
+```
+
+El script verifica el MD5 publicado para esa versión, cuenta capas de anotación y preselecciona tres candidatos de archivos diferentes. La selección es mecánica: duración de 5–12 segundos, longitud de texto y puntuación. Puede contener frases dependientes del contexto o listas; necesita revisión visual y lingüística.
+
+La auditoría local inicial del 26 de noviembre de 2026 encontró 273 archivos ELAN, 609 candidatos que pasan ese filtro y tres preseleccionados. Esos recuentos describen anotaciones; no son resultados de traducción ni de generación. No se han descargado vídeos o pesos ni ejecutado modelos.
+
+## Licencias
+
+- Código original de este repositorio: [MIT](LICENSE).
+- Dataset de referencia: CC BY-NC 4.0 según la ficha institucional. No se redistribuye aquí. La licencia del código no modifica las condiciones de datos, imágenes, pesos ni herramientas externas.
+- Los recursos externos son candidatos, no dependencias integradas. Ver [datos y referencias](FUENTES.md).
+
+`datos/`, vídeos, fotografías personales, pesos, resultados y credenciales quedan fuera de Git. El repositorio público no contiene las traducciones extraídas ni los archivos del corpus.
+
+## Recursos y siguiente etapa
+
+El auditor utiliza CPU y archivos pequeños. No se ha medido todavía el coste de generación, la latencia o la viabilidad de tiempo real. No presupone que el pipeline completo funcione en un ordenador personal. El trabajo gráfico manual no forma parte del objetivo.
+
+[Arquitectura y próximos hitos](PLAN.md).

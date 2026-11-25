@@ -1,0 +1,28 @@
+# Datos y resultados locales
+datos/
+outputs/
+models/
+*.mp4
+*.mov
+*.heic
+*.png
+*.jpg
+*.jpeg
+*.zip
+*.eaf
+*.xlsx
+*.safetensors
+*.gguf
+*.pt
+*.pth
+# Credenciales y entorno
+.env
+.env.*
+!.env.example
+*token*.json
+*secret*.json
+.venv/
+venv/
+__pycache__/
+*.pyc
+.DS_Store
