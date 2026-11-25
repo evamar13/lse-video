@@ -4,13 +4,13 @@ Arquitectura canónica: [ARQUITECTURA.md](ARQUITECTURA.md), acordada el 26 de no
 
 ## Flujo objetivo
 
-Voz en castellano de España → texto → traducción lingüística a LSE → planificación temporal de manos, rostro y cuerpo → vídeo fotorrealista 2D → futura salida OBS/Twitch.
+Voz en castellano de España → texto → propuesta de interpretación LSE con explicación en castellano → plan estructurado → compilación de movimientos de manos, rostro y cuerpo → vídeo fotorrealista 2D → futura salida OBS/Twitch. Ampliación de diseño: [GLOSARIO.md](GLOSARIO.md).
 
 La boca sigue la LSE, no una sincronización labial literal del castellano. Diccionarios y ejemplos aportan evidencia; no definen un único movimiento por palabra. La apariencia y la planificación se desarrollan por separado.
 
 ## Hitos
 
-1. **Inventario y representación intermedia.** Inspeccionar las anotaciones disponibles, sus referencias y carencias. Definir el contrato del plan lingüístico y su realización temporal sin inventar traducciones validadas. Cierre: campos, coordenadas, unidades, estados y evidencias definidos; plan lingüístico separado de poses estimadas.
+1. **Inventario y representación intermedia.** Inspeccionar las anotaciones disponibles, sus referencias y carencias. Definir el glosario de conceptos/signos/construcciones, descripción legible, fuentes y mapeo de movimiento; después el contrato del plan y su compilador. No inventar traducciones validadas ni datos que faltan en la fuente. Cierre: campos, coordenadas, unidades, estados y evidencias definidos; plan lingüístico separado de poses estimadas.
 2. **Muestra lingüística acotada.** Seleccionar textos y ejemplos relacionados; preparar un plan revisado con personas competentes en LSE. Cierre: significado, estructura, referencias espaciales y canales no manuales revisados. Si no hay colaboración experta, mantener la validación pendiente y continuar con tareas técnicas independientes.
 3. **Movimiento controlado.** Extraer o representar secuencias de muestra y comprobar dedos, orientaciones, contactos, rostro y transiciones. Cierre: errores documentados y representación reproducible. Coincidencia de puntos no equivale a comprensión.
 4. **Apariencia fotorrealista fija.** Auditar un generador existente y comparar original, movimiento y resultado. Cierre: fidelidad técnica y comprensión evaluadas; no se requiere modelado gráfico manual ni personaje 3D visible.
@@ -27,7 +27,7 @@ La boca sigue la LSE, no una sincronización labial literal del castellano. Dicc
 
 Implementados: auditor ELAN, descarga parcial de tres originales, página local de revisión, contrato 0.1 de observaciones con exportador/validador, e inventario de glosas presentes en los tres fragmentos. Primera extracción Holistic CPU ejecutada en un fragmento de 5,8 segundos, con coordenadas observadas y vista de seguimiento; ver MOVIMIENTO.md. Pruebas de metadatos, referencias y acceso parcial al ZIP. Los originales no tienen audio; las traducciones están en anotaciones escritas. No hay transcripción de voz, traductor, generador de personas, avatar personalizado ni integración Twitch implementados. El extractor experimental no equivale a un plan de movimientos validado.
 
-Preparado: especificación de arquitectura y plan. Pendientes: completar inventario de evidencia, definir contratos de planificación y movimiento, revisar las pérdidas de seguimiento del extractor y convertir sus estimaciones en un contrato de movimiento explícito. Los hitos de traducción, generación y evaluación siguen pendientes.
+Preparado: especificación de arquitectura y plan; propuesta de glosario e instrucciones legibles, aún sin implementar. Pendientes: completar inventario de evidencia, definir contratos de planificación y movimiento, revisar las pérdidas de seguimiento del extractor y convertir sus estimaciones en un contrato de movimiento explícito. Los hitos de traducción, generación y evaluación siguen pendientes.
 
 ## Límites
 

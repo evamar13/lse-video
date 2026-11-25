@@ -6,7 +6,7 @@ Investigación abierta para representar lengua de signos española (LSE) mediant
 
 ## Arquitectura acordada
 
-**Voz en castellano de España → texto → traducción a LSE → plan de movimientos → vídeo fotorrealista 2D → OBS/Twitch.**
+**Voz en castellano de España → texto → interpretación LSE con explicación legible → plan estructurado → comandos de movimiento → vídeo fotorrealista 2D → OBS/Twitch.**
 
 La representación intermedia incluirá significado, signos/variantes, referencias espaciales, movimientos de ambas manos y dedos, brazos, rostro, mirada y boca, con sus tiempos y evidencias. La boca seguirá las necesidades de la LSE, no una sincronización labial literal del audio castellano. Un diccionario no basta para construir frases.
 
@@ -82,3 +82,7 @@ Formato, límites y resultado de la muestra: [CONTRATO.md](CONTRATO.md). No conf
 Se ejecutó una muestra CPU de 5,8 segundos: 29 fotogramas con resultados y pérdidas explícitas. La vista local está en `outputs/movimiento/VALIDAR.html`. Muestra el original con puntos superpuestos, no un signante sintético. El código no asume que detectar puntos valide la LSE.
 
 [Resultado, límites, requisitos y reproducción](MOVIMIENTO.md). Los modelos están fuera del repositorio; vídeos, puntos y vistas siguen excluidos de Git.
+
+## Propuesta de glosario e instrucciones
+
+[GLOSARIO.md](GLOSARIO.md) define la ampliación propuesta: conceptos/signos y construcciones con descripción en castellano, fuentes y mapeo a movimientos. La IA propondría el plan y explicaría sus elecciones; un compilador convertiría parámetros conocidos a comandos. Todavía no hay glosario validado, traductor ni compilador implementados.

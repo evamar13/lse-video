@@ -8,8 +8,10 @@ Esta especificación define el sistema que se quiere construir. Primero se dise�
 flowchart TD
     A[Audio en castellano de España] --> B[Texto estabilizado y tiempos]
     B --> C[Traducción del significado a LSE]
-    C --> D[Plan de signos, espacio y elementos no manuales]
-    D --> E[Secuencia temporal de movimientos]
+    C --> N[Interpretación propuesta y explicación en castellano]
+    N --> D[Plan tipado de signos, espacio y elementos no manuales]
+    D --> K[Compilador de movimientos]
+    K --> E[Secuencia temporal de movimientos]
     E --> F[Generador de vídeo fotorrealista]
     I[Apariencia autorizada de referencia] --> F
     F --> G[Comprobación técnica y lingüística]
@@ -27,6 +29,12 @@ Reconocer castellano de España, con segmentos y marcas temporales. Registrar in
 Usar el significado y contexto del mensaje para elegir signos, variantes, organización, referencias espaciales, direcciones y elementos no manuales. Diccionarios aportan evidencia léxica; traducciones y vídeos continuos ayudan con estructura y uso contextual. Las glosas son identificadores parciales, no una descripción completa de la lengua.
 
 Las traducciones existentes de LSE a castellano son material paralelo útil, pero invertir sus pares no garantiza automáticamente una traducción correcta en la dirección contraria. Revisar anotaciones especiales, segmentación y correspondencia de significado.
+
+## Ampliación propuesta: instrucciones legibles y glosario
+
+La propuesta de [GLOSARIO.md](GLOSARIO.md) añade una explicación en castellano de cómo representar la frase y un inventario de signos/construcciones, descripciones, evidencias y realizaciones. Esta explicación se acompaña de un plan estructurado; un compilador transforma IDs y parámetros conocidos en comandos. No se ejecuta prosa libre ni código generado por la IA. Inicialmente puede usarse una sola llamada para proponer el plan, con descripción ejecutiva derivada de sus campos, evitando una segunda inferencia de conversión.
+
+El motor conserva la distinción entre propuestas de IA, observaciones y recursos revisados. La existencia de diccionarios o transcripciones no completa automáticamente configuraciones, boca, contactos y transiciones ausentes. Esta ampliación no está implementada; la extracción actual sigue siendo observación geométrica.
 
 ## 3. Representación lingüística → movimientos
 
