@@ -36,7 +36,7 @@ La boca sigue lo que requiere la LSE: componentes labiales relacionados con pala
 
 ## Contrato intermedio propuesto
 
-Formato interno versionado, independiente del traductor y generador. Todavía no hay esquema ejecutable ni inventario validado. Antes de implementar, definir:
+Formato interno versionado, independiente del traductor y generador. La primera implementación es el [contrato 0.1 de observaciones](CONTRATO.md): exporta y comprueba evidencia de los tres fragmentos, con los campos de movimiento ausentes. No hay todavía contrato ejecutable de planes lingüísticos nuevos ni de secuencias listas para renderizar. Bloques del diseño completo:
 
 | Bloque | Información mínima |
 |---|---|

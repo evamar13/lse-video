@@ -25,9 +25,9 @@ La boca sigue la LSE, no una sincronización labial literal del castellano. Dicc
 
 ## Estado real
 
-Implementados: auditor ELAN, descarga parcial de tres originales, página local de revisión y pruebas del acceso parcial al ZIP. Los originales no tienen audio; las traducciones están en anotaciones escritas. No hay transcripción de voz, traductor, extractor de poses, generador, avatar personalizado ni integración Twitch implementados.
+Implementados: auditor ELAN, descarga parcial de tres originales, página local de revisión, contrato 0.1 de observaciones con exportador/validador, e inventario de glosas presentes en los tres fragmentos. Pruebas de metadatos, referencias y acceso parcial al ZIP. Los originales no tienen audio; las traducciones están en anotaciones escritas. No hay transcripción de voz, traductor, extractor de poses, generador, avatar personalizado ni integración Twitch implementados.
 
-Preparado: especificación de arquitectura y plan. Pendientes: inventario detallado de evidencias, esquema ejecutable del contrato y los hitos de implementación/evaluación.
+Preparado: especificación de arquitectura y plan. Pendientes: completar inventario de evidencia, definir contratos de planificación y movimiento, elegir extractor y probar un fragmento con requisitos y licencia revisados. Los hitos de traducción, generación y evaluación siguen pendientes.
 
 ## Límites
 

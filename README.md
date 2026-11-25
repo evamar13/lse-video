@@ -2,7 +2,7 @@
 
 Investigación abierta para representar lengua de signos española (LSE) mediante vídeo fotorrealista 2D, con una futura integración en OBS/Twitch.
 
-**Estado: preparación de datos.** Hoy el repositorio contiene un auditor de anotaciones ELAN. No genera vídeo, no traduce voz a LSE y no incluye modelos entrenados. No hay todavía una evaluación de comprensión con personas signantes.
+**Estado: preparación de datos y contrato de observaciones.** El repositorio contiene herramientas de auditoría, muestra local y exportación de evidencia ELAN. No genera vídeo, no traduce voz a LSE y no incluye modelos entrenados. No hay todavía una evaluación de comprensión con personas signantes.
 
 ## Arquitectura acordada
 
@@ -66,3 +66,13 @@ El descargador exige HTTP Range y un máximo de tres vídeos. Reutiliza archivos
 ```sh
 python3 -m unittest discover -s . -p 'test_*.py' -q
 ```
+
+## Representación intermedia de la evidencia
+
+```sh
+python3 contrato_lse.py
+```
+
+Genera tres paquetes locales en `datos/contratos/`, con traducción, intervalos, glosas/variantes presentes y campos de movimiento explícitamente ausentes. Comprueba integridad y correspondencia con la fuente; no crea signos nuevos ni ejecuta modelos.
+
+Formato, límites y resultado de la muestra: [CONTRATO.md](CONTRATO.md). No confundir observaciones estructuradas con una traducción o secuencia de movimientos validada.
