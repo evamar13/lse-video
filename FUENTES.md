@@ -41,3 +41,13 @@ El [marco legal](https://www.cervantesvirtual.com/marco-legal/) distingue acceso
 No se han descargado vídeos, creado poses ni entrenado con esta fuente. Se registra como catálogo candidato con derechos pendientes, no como dataset autorizado.
 
 Para decidir su incorporación: comprobar una pequeña muestra por vídeo, lengua del texto, correspondencia de significado, sincronización/subtítulos, visibilidad de manos y rostro, resolución, atribución y permisos. No generar una transcripción por ASR y tratarla como traducción de referencia de LSE sin revisión.
+
+## Ejemplo concreto BVMC.Labs: presentación del diccionario de Pinedo
+
+Registro aportado por Eva: manifestación 242342, ítem 149043, obra 21958 y expresión 169428. [Ficha bibliográfica consultada](https://www.cervantesvirtual.com/obra/diccionario-de-la-lengua-de-signos-espanola-presentacion--0/) y [visor](https://www.cervantesvirtual.com/obra-visor/diccionario-de-la-lengua-de-signos-espanola-presentacion--0/video/). El registro identifica una presentación del diccionario de Félix Jesús Pinedo Peydró, no acredita que incluya todas sus entradas.
+
+El visor enlaza un recurso que responde como vídeo MP4. No se ha reproducido ni descargado el vídeo; audio, resolución, subtítulos, transcripción y alineación no comprobados. Los metadatos aportados describen la obra, no lo que se signa frase a frase.
+
+Las [condiciones específicas de BVMC.Labs](https://data.cervantesvirtual.com/condiciones-de-uso/) publican los metadatos bajo CC0 1.0. Es una confirmación de reutilización de fichas bibliográficas; no extender esa declaración al vídeo enlazado. Los permisos del vídeo siguen pendientes de comprobar.
+
+La [documentación de datos enlazados](https://data.cervantesvirtual.com/datos-enlazados) ofrece RDF y SPARQL. Posible aplicación determinista: inventario de títulos, autores, identificadores, enlaces y estado de derechos. No usar título, resumen o materia como traducción supervisada del vídeo. Para entrenar traducción hacen falta parejas de segmentos de LSE y su significado en castellano, revisadas y alineadas.
