@@ -35,7 +35,7 @@ python3 auditar_anotaciones.py --zip /ruta/anotaciones.zip --output /ruta/audito
 
 El script verifica el MD5 publicado para esa versión, cuenta capas de anotación y preselecciona tres candidatos de archivos diferentes. La selección es mecánica: duración de 5–12 segundos, longitud de texto y puntuación. Puede contener frases dependientes del contexto o listas; necesita revisión visual y lingüística.
 
-La auditoría local inicial del 26 de noviembre de 2026 encontró 273 archivos ELAN, 609 candidatos que pasan ese filtro y tres preseleccionados. Esos recuentos describen anotaciones; no son resultados de traducción ni de generación. No se han descargado vídeos o pesos ni ejecutado modelos.
+La auditoría local inicial del 26 de noviembre de 2026 encontró 273 archivos ELAN, 609 candidatos que pasan ese filtro y tres preseleccionados. Esos recuentos describen anotaciones; no son resultados de traducción ni de generación. Posteriormente se han obtenido solo tres vídeos mediante rangos HTTP del ZIP oficial y verificado su tamaño/CRC; no se han descargado pesos ni ejecutado modelos.
 
 ## Licencias
 
@@ -50,3 +50,21 @@ La auditoría local inicial del 26 de noviembre de 2026 encontró 273 archivos E
 El auditor utiliza CPU y archivos pequeños. No se ha medido todavía el coste de generación, la latencia o la viabilidad de tiempo real. No presupone que el pipeline completo funcione en un ordenador personal. El trabajo gráfico manual no forma parte del objetivo.
 
 [Arquitectura y próximos hitos](PLAN.md).
+
+## Revisar la muestra local
+
+```sh
+# Consulta tamaños sin descargar vídeos completos; obtiene metadatos parciales del ZIP.
+python3 muestra_videos.py
+# Descarga únicamente los vídeos de los tres candidatos, con presupuesto de transferencia.
+python3 muestra_videos.py --descargar --max-mb 100
+python3 crear_revision.py
+```
+
+Abrir `outputs/VALIDAR.html` en el navegador. Los vídeos, traducciones extraídas y la página de revisión permanecen locales e ignorados por Git. La página no valida comprensión ni genera vídeo: permite reproducir intervalos y ampliar contexto. No ha sido comprobada en un navegador automatizado.
+
+El descargador exige HTTP Range y un máximo de tres vídeos. Reutiliza archivos locales solo si coinciden con tamaño y CRC de la entrada remota; no descarga el corpus completo como alternativa si falla. Verifica las entradas extraídas, no el MD5 de todo el ZIP de vídeos. `datos/descarga-muestra.json` registra procedencia, SHA-256 y transferencia de la última ejecución; no representa necesariamente el total acumulado de reintentos.
+
+```sh
+python3 -m unittest discover -s . -p 'test_*.py' -q
+```

@@ -35,4 +35,4 @@ Registrar proyecto/tarea/ejecutor y contadores reales cuando se incorporen llama
 
 ## Estado
 
-Implementado: auditor de anotaciones y documentación. Pendiente: revisión de vídeos, extracción de poses, generador, comparador, evaluación lingüística e integración OBS/Twitch.
+Implementado: auditor, descarga parcial de tres vídeos originales, página local para revisar intervalos y traducciones, y documentación. Pendiente: revisión visual y lingüística de la selección, extracción de poses, generador, comparador de resultados, evaluación de comprensión e integración OBS/Twitch.
