@@ -44,4 +44,4 @@ No hay coordenadas de dedos o boca ni revisión de comprensión. Es un inventari
 
 ## Siguiente implementación
 
-Probar extracción de movimiento de un fragmento corto, tras elegir extractor, requisitos y licencia. Definir articulaciones, unidades, coordenadas y canales faciales antes de convertir su salida. Mantener separado el movimiento estimado de un plan lingüístico revisado. El generador fotorrealista seguirá pendiente hasta disponer de una secuencia comprobable.
+Ya se ha probado extracción CPU de un fragmento corto: ver [MOVIMIENTO.md](MOVIMIENTO.md). El contrato 0.1 de observaciones ELAN no cambia sus campos vacíos: el movimiento estimado se guarda aparte y no se convierte automáticamente en un plan revisado. Definir articulaciones, unidades, coordenadas y canales faciales antes de convertir su salida. Mantener separado el movimiento estimado de un plan lingüístico revisado. El generador fotorrealista seguirá pendiente hasta disponer de una secuencia comprobable.

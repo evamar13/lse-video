@@ -61,6 +61,8 @@ for(const button of document.querySelectorAll('button[data-mode]')) button.addEv
   catch (_) { button.textContent = 'Usa los controles del vídeo o abre el archivo completo'; }
 });
 </script></html>'''
+    if (base/'outputs/movimiento/VALIDAR.html').exists():
+        document = document.replace('</header>', '<p><a href="movimiento/VALIDAR.html">Ver la primera extracción de manos, rostro y cuerpo</a></p></header>', 1)
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(document)
     return len(cards)

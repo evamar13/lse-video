@@ -25,9 +25,9 @@ La boca sigue la LSE, no una sincronización labial literal del castellano. Dicc
 
 ## Estado real
 
-Implementados: auditor ELAN, descarga parcial de tres originales, página local de revisión, contrato 0.1 de observaciones con exportador/validador, e inventario de glosas presentes en los tres fragmentos. Pruebas de metadatos, referencias y acceso parcial al ZIP. Los originales no tienen audio; las traducciones están en anotaciones escritas. No hay transcripción de voz, traductor, extractor de poses, generador, avatar personalizado ni integración Twitch implementados.
+Implementados: auditor ELAN, descarga parcial de tres originales, página local de revisión, contrato 0.1 de observaciones con exportador/validador, e inventario de glosas presentes en los tres fragmentos. Primera extracción Holistic CPU ejecutada en un fragmento de 5,8 segundos, con coordenadas observadas y vista de seguimiento; ver MOVIMIENTO.md. Pruebas de metadatos, referencias y acceso parcial al ZIP. Los originales no tienen audio; las traducciones están en anotaciones escritas. No hay transcripción de voz, traductor, generador de personas, avatar personalizado ni integración Twitch implementados. El extractor experimental no equivale a un plan de movimientos validado.
 
-Preparado: especificación de arquitectura y plan. Pendientes: completar inventario de evidencia, definir contratos de planificación y movimiento, elegir extractor y probar un fragmento con requisitos y licencia revisados. Los hitos de traducción, generación y evaluación siguen pendientes.
+Preparado: especificación de arquitectura y plan. Pendientes: completar inventario de evidencia, definir contratos de planificación y movimiento, revisar las pérdidas de seguimiento del extractor y convertir sus estimaciones en un contrato de movimiento explícito. Los hitos de traducción, generación y evaluación siguen pendientes.
 
 ## Límites
 

@@ -2,7 +2,7 @@
 
 Investigación abierta para representar lengua de signos española (LSE) mediante vídeo fotorrealista 2D, con una futura integración en OBS/Twitch.
 
-**Estado: preparación de datos y contrato de observaciones.** El repositorio contiene herramientas de auditoría, muestra local y exportación de evidencia ELAN. No genera vídeo, no traduce voz a LSE y no incluye modelos entrenados. No hay todavía una evaluación de comprensión con personas signantes.
+**Estado: primera extracción CPU realizada.** Hay herramientas de auditoría, muestra local, exportación de evidencia ELAN y seguimiento experimental de manos, rostro y cuerpo. No sintetiza personas, no traduce voz a LSE ni entrena modelos; la extracción usa un modelo preentrenado externo. No hay todavía una evaluación de comprensión con personas signantes.
 
 ## Arquitectura acordada
 
@@ -33,7 +33,7 @@ python3 auditar_anotaciones.py --zip /ruta/anotaciones.zip --output /ruta/audito
 
 El script verifica el MD5 publicado para esa versión, cuenta capas de anotación y preselecciona tres candidatos de archivos diferentes. La selección es mecánica: duración de 5–12 segundos, longitud de texto y puntuación. Puede contener frases dependientes del contexto o listas; necesita revisión visual y lingüística.
 
-La auditoría local inicial del 26 de noviembre de 2026 encontró 273 archivos ELAN, 609 candidatos que pasan ese filtro y tres preseleccionados. Esos recuentos describen anotaciones; no son resultados de traducción ni de generación. Posteriormente se han obtenido solo tres vídeos mediante rangos HTTP del ZIP oficial y verificado su tamaño/CRC; no se han descargado pesos ni ejecutado modelos.
+La auditoría local inicial del 26 de noviembre de 2026 encontró 273 archivos ELAN, 609 candidatos que pasan ese filtro y tres preseleccionados. Esos recuentos describen anotaciones; no son resultados de traducción ni de generación. Posteriormente se han obtenido solo tres vídeos mediante rangos HTTP del ZIP oficial y verificado su tamaño/CRC; la extracción posterior con un modelo preentrenado se documenta en [MOVIMIENTO.md](MOVIMIENTO.md).
 
 ## Licencias
 
@@ -76,3 +76,9 @@ python3 contrato_lse.py
 Genera tres paquetes locales en `datos/contratos/`, con traducción, intervalos, glosas/variantes presentes y campos de movimiento explícitamente ausentes. Comprueba integridad y correspondencia con la fuente; no crea signos nuevos ni ejecuta modelos.
 
 Formato, límites y resultado de la muestra: [CONTRATO.md](CONTRATO.md). No confundir observaciones estructuradas con una traducción o secuencia de movimientos validada.
+
+## Primera extracción de manos, rostro y cuerpo
+
+Se ejecutó una muestra CPU de 5,8 segundos: 29 fotogramas con resultados y pérdidas explícitas. La vista local está en `outputs/movimiento/VALIDAR.html`. Muestra el original con puntos superpuestos, no un signante sintético. El código no asume que detectar puntos valide la LSE.
+
+[Resultado, límites, requisitos y reproducción](MOVIMIENTO.md). Los modelos están fuera del repositorio; vídeos, puntos y vistas siguen excluidos de Git.
