@@ -7,3 +7,6 @@
 - Requerir evaluación de comprensión con personas sordas signantes y especialistas antes de declarar accesibilidad validada.
 - Procesos secuenciales y GPU de IA desactivada por defecto. No activar servicios pagados automáticamente; medir recursos y registrar uso real cuando haya inferencia.
 - El auditor actual es un script determinista, no un agente autónomo ni un modelo de traducción.
+
+- Seguir ARQUITECTURA.md: voz castellana → texto → plan lingüístico LSE → movimientos → vídeo. Boca y rostro siguen la LSE, no el audio castellano fonema a fonema. No usar un diccionario como traductor de frases.
+- Eva revisa apariencia y uso, no corrección lingüística. Mantener esa revisión separada de la de personas competentes en LSE.

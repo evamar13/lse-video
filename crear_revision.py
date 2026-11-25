@@ -39,9 +39,10 @@ video{display:block;width:100%;max-height:600px;background:#101d24}blockquote{bo
 button,a{font:inherit}button{padding:9px 14px;cursor:pointer;border:1px solid #416359;background:#edf3ed;border-radius:6px}
 a{color:#235c49}button:focus-visible,a:focus-visible{outline:3px solid #a9681c}header{border-bottom:1px solid #bdc8bf;padding-bottom:22px}
 .notice{background:#fff2d7;padding:15px;border-radius:8px}details{margin-top:18px}footer{margin:30px 0}
-</style><header><p>LSE VIDEO · PRIMERA MUESTRA LOCAL</p><h1>Primero, comprobar los originales</h1>
+</style><header><p>LSE VIDEO · PRIMERA MUESTRA LOCAL</p><h1>Revisión visual de los originales</h1>
 <p>Tres candidatos de lengua de signos española con traducción al castellano. Aquí todavía no hay vídeo generado, avatar personalizable ni traducción automática.</p>
 <p class="notice">Material de investigación no comercial, CC BY-NC 4.0. No publicar estos vídeos sin revisar sus condiciones. El contenido sanitario es una referencia del corpus, no una recomendación médica ni un servicio de interpretación.</p>
+<p><strong>Esta primera muestra no tiene audio.</strong> La traducción escrita sirve para seguir el contenido; no demuestra que la LSE sea correcta. Eva puede revisar apariencia y visibilidad; la validación lingüística corresponde a personas competentes en LSE.</p>
 <p>Al reproducir una muestra, las otras se pausan. «Ver con contexto» añade tres segundos a cada lado. Para examinar más contexto, abre el vídeo completo.</p></header>
 ''' + ''.join(cards) + '''<footer>Fuente: <a href="https://zenodo.org/records/10234465">LSE-Health-UVigo — Alba-Castro y colaboradores</a>.
 Licencia según <a href="https://portalcientifico.uvigo.gal/documentos/668fc42bb9e7c03b01bd5792?lang=es">ficha de la Universidade de Vigo</a>.

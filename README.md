@@ -4,17 +4,15 @@ Investigación abierta para representar lengua de signos española (LSE) mediant
 
 **Estado: preparación de datos.** Hoy el repositorio contiene un auditor de anotaciones ELAN. No genera vídeo, no traduce voz a LSE y no incluye modelos entrenados. No hay todavía una evaluación de comprensión con personas signantes.
 
-## Primer experimento
+## Arquitectura acordada
 
-Comprobar si un generador existente puede reproducir movimientos de vídeos de LSE sin alterar manos, rostro ni significado. Comparar original, poses estimadas y resultado generado antes de desarrollar traducción libre o personalización de identidad.
+**Voz en castellano de España → texto → traducción a LSE → plan de movimientos → vídeo fotorrealista 2D → OBS/Twitch.**
 
-1. Revisar tres segmentos de vídeos con traducción al castellano y condiciones de uso conocidas.
-2. Extraer movimientos y revisar oclusiones, contactos, orientación de manos y expresiones.
-3. Evaluar un generador existente con apariencia fija, tras comprobar licencia de código y pesos.
-4. Comparar fidelidad técnica y comprensión con personas sordas signantes y especialistas de LSE.
-5. Solo después investigar apariencia personalizable, castellano hablado y emisión en directo.
+La representación intermedia incluirá significado, signos/variantes, referencias espaciales, movimientos de ambas manos y dedos, brazos, rostro, mirada y boca, con sus tiempos y evidencias. La boca seguirá las necesidades de la LSE, no una sincronización labial literal del audio castellano. Un diccionario no basta para construir frases.
 
-Un esqueleto parecido no demuestra una traducción correcta. Este experimento de reproducción no es un intérprete ni una herramienta de consejo sanitario.
+Primero se diseña ese contrato y el inventario de ejemplos. Después se evalúan por separado traducción, movimiento y apariencia. No se requiere un personaje 3D visible ni modelado manual. El detalle está en [ARQUITECTURA.md](ARQUITECTURA.md) y los hitos en [PLAN.md](PLAN.md).
+
+Los tres originales descargados son un banco inicial de observación. Eva revisa apariencia y experiencia; la corrección lingüística necesita personas competentes en LSE. No se le pide certificar una lengua que no conoce.
 
 ## Qué se puede ejecutar hoy
 
@@ -61,7 +59,7 @@ python3 muestra_videos.py --descargar --max-mb 100
 python3 crear_revision.py
 ```
 
-Abrir `outputs/VALIDAR.html` en el navegador. Los vídeos, traducciones extraídas y la página de revisión permanecen locales e ignorados por Git. La página no valida comprensión ni genera vídeo: permite reproducir intervalos y ampliar contexto. No ha sido comprobada en un navegador automatizado.
+Abrir `outputs/VALIDAR.html` en el navegador. Los vídeos, traducciones extraídas y la página de revisión permanecen locales e ignorados por Git. Los tres originales no tienen pista de audio; la traducción se muestra por escrito. La página no valida comprensión ni genera vídeo: permite reproducir intervalos y ampliar contexto. No ha sido comprobada en un navegador automatizado.
 
 El descargador exige HTTP Range y un máximo de tres vídeos. Reutiliza archivos locales solo si coinciden con tamaño y CRC de la entrada remota; no descarga el corpus completo como alternativa si falla. Verifica las entradas extraídas, no el MD5 de todo el ZIP de vídeos. `datos/descarga-muestra.json` registra procedencia, SHA-256 y transferencia de la última ejecución; no representa necesariamente el total acumulado de reintentos.
 

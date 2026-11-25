@@ -1,38 +1,36 @@
-# Arquitectura y criterios de avance
+# Plan de desarrollo
 
-## Objetivo
+Arquitectura canónica: [ARQUITECTURA.md](ARQUITECTURA.md), acordada el 26 de noviembre de 2026.
 
-Castellano hablado → traducción a LSE → movimiento de manos, rostro y cuerpo → vídeo fotorrealista → OBS/Twitch. Se investiga una apariencia personalizable; no se promete que una fotografía baste.
+## Flujo objetivo
 
-## Primera etapa: reproducción offline
+Voz en castellano de España → texto → traducción lingüística a LSE → planificación temporal de manos, rostro y cuerpo → vídeo fotorrealista 2D → futura salida OBS/Twitch.
 
-Entrada: una secuencia real de LSE con traducción y tiempos, usada conforme a sus permisos. Salida prevista: un comparador de original, movimiento estimado y vídeo generado con identidad fija.
+La boca sigue la LSE, no una sincronización labial literal del castellano. Diccionarios y ejemplos aportan evidencia; no definen un único movimiento por palabra. La apariencia y la planificación se desarrollan por separado.
 
-- Tres fragmentos revisados, con contexto suficiente y manos/rostro visibles. Los tres primeros del auditor no son una selección validada.
-- Registro de procedencia, licencia, versión, intervalo temporal y atribución.
-- Medir defectos de dedos, orientación, contactos, expresión facial, continuidad e identidad. La coincidencia de puntos no reemplaza la revisión de comprensión.
-- No desplegar un resultado como accesibilidad validada sin evaluación con personas sordas signantes y especialistas de LSE.
+## Hitos
 
-## Componentes por evaluar
+1. **Inventario y representación intermedia.** Inspeccionar las anotaciones disponibles, sus referencias y carencias. Definir el contrato del plan lingüístico y su realización temporal sin inventar traducciones validadas. Cierre: campos, coordenadas, unidades, estados y evidencias definidos; plan lingüístico separado de poses estimadas.
+2. **Muestra lingüística acotada.** Seleccionar textos y ejemplos relacionados; preparar un plan revisado con personas competentes en LSE. Cierre: significado, estructura, referencias espaciales y canales no manuales revisados. Si no hay colaboración experta, mantener la validación pendiente y continuar con tareas técnicas independientes.
+3. **Movimiento controlado.** Extraer o representar secuencias de muestra y comprobar dedos, orientaciones, contactos, rostro y transiciones. Cierre: errores documentados y representación reproducible. Coincidencia de puntos no equivale a comprensión.
+4. **Apariencia fotorrealista fija.** Auditar un generador existente y comparar original, movimiento y resultado. Cierre: fidelidad técnica y comprensión evaluadas; no se requiere modelado gráfico manual ni personaje 3D visible.
+5. **Personalización.** Cambiar la apariencia sobre secuencias revisadas, con permisos y consentimiento adecuados. Medir material de referencia necesario; no prometer que una foto baste.
+6. **Voz y directo.** Añadir reconocimiento de voz, segmentación, contexto, sincronización y salida OBS. Medir la cadena completa antes de una integración distribuida con Twitch.
 
-- Extracción de poses: por seleccionar, incluyendo manos y rostro; las estimaciones pueden fallar.
-- Generación de vídeo: Pose-to-Video es candidato, no dependencia validada. Auditar licencias de código, pesos, requisitos y control de identidad antes de instalar.
-- Performs/Animics: opcionales para preparar o inspeccionar movimiento; no resuelven la traducción castellano→LSE por sí solos. Ningún personaje 3D visible es obligatorio en la salida.
-- Revisión: interfaz o informe comparativo offline, todavía no implementado.
+## Qué revisa cada persona
 
-## Etapas posteriores
+- Eva: objetivo, facilidad de uso y apariencia. No se le pide validar lingüísticamente LSE.
+- Verificación técnica: datos, geometría, integridad, sincronización, recursos y fidelidad de movimientos.
+- Personas sordas signantes y especialistas: comprensión, significado y calidad lingüística.
 
-1. Probar cambio de identidad manteniendo una secuencia validada. Consentimiento y condiciones de uso de la imagen antes de tratar fotografías.
-2. Investigar traducción castellano→LSE en dominio acotado con evaluación separada por signantes y contenidos. Datos de salud no equivalen a vocabulario suficiente para directos generales.
-3. Capturar audio autorizado del emisor y mostrar la salida mediante una fuente de navegador de OBS. La API de Twitch no se supone una fuente general de audio de un directo.
-4. Medir sincronización, latencia y consumo antes de plantear una extensión de Twitch o entrenamiento más amplio.
+## Estado real
 
-## Límites operativos
+Implementados: auditor ELAN, descarga parcial de tres originales, página local de revisión y pruebas del acceso parcial al ZIP. Los originales no tienen audio; las traducciones están en anotaciones escritas. No hay transcripción de voz, traductor, extractor de poses, generador, avatar personalizado ni integración Twitch implementados.
 
-Procesamiento secuencial, etapas acotadas y GPU de IA desactivada por defecto. No se inicia entrenamiento, descarga masiva o cómputo remoto de pago automáticamente. Comprobar recursos y presupuesto antes de ejecutar modelos. El renderizado también consume recursos y debe medirse por separado.
+Preparado: especificación de arquitectura y plan. Pendientes: inventario detallado de evidencias, esquema ejecutable del contrato y los hitos de implementación/evaluación.
 
-Registrar proyecto/tarea/ejecutor y contadores reales cuando se incorporen llamadas de IA. Contadores ausentes son desconocidos, no cero. El auditor actual no hace inferencias. No anunciar ahorro sin comparación ni presentar simulaciones como resultados reales.
+## Límites
 
-## Estado
+Lotes pequeños, secuenciales y GPU de IA desactivada por defecto. Comprobar recursos antes de modelos; no iniciar entrenamiento ni cómputo remoto pagado automáticamente. Medir renderizado por separado. Instrumentar llamadas de IA con identidad de proyecto/tarea/ejecutor y contadores reales; ausencia de datos significa desconocido, no cero. No prometer ahorro ni calidad sin evaluación.
 
-Implementado: auditor, descarga parcial de tres vídeos originales, página local para revisar intervalos y traducciones, y documentación. Pendiente: revisión visual y lingüística de la selección, extracción de poses, generador, comparador de resultados, evaluación de comprensión e integración OBS/Twitch.
+Vídeos, datos, traducciones extraídas, fotografías y resultados no se publican por defecto. Revisar condiciones de cada recurso; la licencia MIT del código no cambia las licencias de terceros. No ampliar datasets ni ejecutar modelos como consecuencia automática de aprobar este plan.
