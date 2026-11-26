@@ -95,7 +95,11 @@ python3 preparar_bancolse.py
 
 Abrir `outputs/bancolse/VALIDAR.html`: fotografías y dibujos de hola, gracias y por favor con fuente y licencia. Muestra educativa no comercial, sin IA ni entrenamiento. Originales e inventario SHA-256 en `datos/bancolse/`, excluidos de Git. Las descargas están limitadas a tres entradas y 20 MiB por ejecución. No reutiliza recursos de YouTube sin verificar su licencia. Alcance y permisos en [FUENTES.md](FUENTES.md).
 
-## Preparación habitual de fotos
+## Prototipo modular de movimiento
+
+`python3 crear_modular.py` prepara `outputs/prototipo-modular/VALIDAR.html`: dos apariencias sintéticas comparten el motor 2D y la captura de 15 Hz, con brazos de distintas proporciones. Incluye contacto de diagnóstico índice–mejilla, controles de capas y aviso de objetivos fuera de alcance. No utiliza modelos ni anima una foto personal. [Alcance y límites](AVATAR_MODULAR.md).
+
+## Preparación de la referencia fotográfica
 
 Se aceptan fotos cotidianas: el proceso revisa y reutiliza o prepara una candidata con IA, conserva originales y registra aceptación de apariencia antes de animar. [Flujo, límites y gestor privado](PREPARACION_FOTOS.md). El gestor no llama a APIs ni valida identidad automáticamente; la preparación con IA la ejecuta actualmente el asistente. La integración automática para usuarios sigue pendiente.
 

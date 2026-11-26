@@ -2,6 +2,18 @@
 
 Dirección preferida por Eva, 26 de noviembre de 2026. Mantener salida 2D de apariencia personalizable y evitar generación de vídeo por difusión en cada intervención. Esta arquitectura está definida, no implementada como avatar completo.
 
+## Primer prototipo técnico implementado
+
+`python3 crear_modular.py` construye `outputs/prototipo-modular/VALIDAR.html` desde la extracción privada de 15 Hz. `modular.js` dibuja ambas apariencias mediante el mismo motor Canvas 2D: topología de manos, brazos, torso y rasgos faciales. Son configuraciones sintéticas de colores y proporciones; no la apariencia final ni una foto personalizada.
+
+Se reproducen 87 observaciones a 15 Hz. Un solucionador de dos segmentos coloca el codo respetando longitudes distintas de brazo/antebrazo y el objetivo de muñeca, si es alcanzable. Marca los objetivos fuera de alcance y desplaza la mano al punto alcanzable; no oculta esa corrección. Las manos ausentes siguen ausentes. La geometría de dedos procede de puntos observados con una topología de dibujo común, no de un rig anatómico 3D con longitudes físicas verificadas.
+
+El modo de contacto coloca sintéticamente la punta del índice izquierdo en una marca de la mejilla para comprobar el cambio de proporciones. No representa una traducción, una anotación de contacto del corpus ni un signo válido. Hay controles manuales de orden de manos y de su capa respecto a cara; no se infiere profundidad del vídeo. La deformación visible de boca y cejas sigue los puntos originales en una cara dibujada, no una fotografía. Los controles son de diagnóstico, no se pretende que la persona los ajuste durante el streaming.
+
+Verificación: 39 pruebas Python y ocho comprobaciones geométricas/de interacción en Chrome headless con GPU desactivada; vista de escritorio inspeccionada. En el ensayo sintético, índice y marca coincidieron dentro de 0,02 píxeles en ambos perfiles; esto comprueba el cálculo, no la fidelidad lingüística ni contactos físicos. Un muestreo de dibujo de ambos personajes en ese entorno dio p95 alrededor de 0,7 ms; no mide reconocimiento, traducción, latencia OBS, uso global del equipo o rendimiento en directo. No se promete una tasa estable de fotogramas a partir de ese dato.
+
+Sin modelos, entrenamiento, servicios remotos o nuevas generaciones de imágenes. Las coordenadas del corpus y la página generada siguen privadas e ignoradas por Git. Preparación automática de módulos desde foto, texturas realistas y traducción en directo siguen pendientes.
+
 ## Componentes
 
 | Parte | Compartido entre personas | Adaptación al crear la referencia |
@@ -19,7 +31,7 @@ Al cambiar proporciones no basta con escalar cada pieza independientemente: reca
 
 Foto cotidiana autorizada → revisión y preparación con IA si hace falta → referencia frontal → separación/ajuste de módulos y texturas → ajuste de proporciones visibles y anclajes → inspección de uniones, manos y expresiones → aceptación de apariencia → referencia animable reutilizable.
 
-La preparación de foto sigue PREPARACION_FOTOS.md. La segmentación automática, rig compartido, ajuste de texturas y deformación facial están pendientes; no se atribuyen al gestor de fotos ya implementado. Usar IA para reconstruir zonas ocultas una vez cuando resulte útil, no en cada frase. Si una foto no aporta identidad suficiente, pedir otra toma concreta.
+La preparación de foto sigue PREPARACION_FOTOS.md. La segmentación automática, rig anatómico completo, ajuste de texturas y deformación de una cara fotográfica están pendientes; no se atribuyen al gestor de fotos ni al prototipo geométrico ya implementados. Usar IA para reconstruir zonas ocultas una vez cuando resulte útil, no en cada frase. Si una foto no aporta identidad suficiente, pedir otra toma concreta.
 
 No exigir a la persona modelado manual, recorte de capas o uso de Blender. Es trabajo de integración del producto; el repertorio de movimientos y las plantillas se crean una vez. Tampoco prometer que cualquier foto pueda repararse conservando el parecido.
 
