@@ -7,6 +7,7 @@ import html
 import json
 import os
 from pathlib import Path
+import re
 import struct
 import subprocess
 import zlib
@@ -25,13 +26,13 @@ SOURCES=[
          status='muestra_pendiente',use='Una imagen del ZIP 192; no corpus de frases ni verdad de referencia de articulaciones'),
     dict(id='lse-horeco',url='https://taalmaterialen.ivdnt.org/download/lse_horeco/',license='CC BY-NC 3.0',
          status='requiere_login',use='Vídeo y castellano paralelo',caution='Acceso legítimo mediante cuenta; no se elude el inicio de sesión.'),
-    dict(id='dilse',url='https://fundacioncnse-dilse.org/condiciones-uso.php',license='CC BY-NC-SA 3.0 en página indexada; restricciones adicionales',
-         status='referencia_pendiente_verificacion_actual',use='Consulta; no corpus incorporado',
-         caution='La respuesta directa actual es una aplicación Flutter. Texto indexado declara CC y prohíbe redistribución como diccionario; verificar alcance actual antes de extracción.'),
+    dict(id='dilse',url='https://fundacioncnse-dilse.org/',license='Autorización actual de reproducción no comercial; no se presume CC para la versión actual',
+         status='muestra_pendiente',use='Una entrada, foto y vídeo originales para estudio privado no comercial',
+         caution='Condiciones actuales en API de la aplicación. No redistribuir, entrenar o generar derivados automáticamente; etiquetas de parámetros no equivalen a coordenadas.'),
     dict(id='cervantes',url='https://data.cervantesvirtual.com/condiciones-de-uso/',license='CC0 solo para metadatos',
          status='metadatos_reutilizables_videos_pendientes',use='Inventario bibliográfico',caution='No extender CC0 a grabaciones; no se descargan vídeos.'),
     dict(id='congreso',url='https://www.congreso.es/gl/cem/aviso-legal',license='Reutilización institucional con condiciones; vídeo concreto pendiente',
-         status='pendiente_derechos_y_muestra',use='Candidato de interpretación continua',caution='No equiparar documento público a grabación sin derechos ni permiso de clonación.'),
+         status='revision_actual_bloqueada_http_403',use='Candidato de interpretación continua',caution='El aviso legal respondió HTTP 403 en revisión directa del 26/11/2026; evidencia privada guardada. No se presume prohibición por carecer de licencia abierta ni autorización TDM por ausencia de comprobación.'),
     dict(id='youtube-ies',url='https://www.youtube.com/watch?v=JOpFHf5efe0',license='No confirmada',
          status='pendiente_licencia',use='Referencia candidata; sin descarga ni extracción'),
 ]
@@ -55,7 +56,7 @@ def fetch(url,path,limit):
         if temp.stat().st_size>limit:raise ValueError('Límite de tamaño excedido')
         temp.replace(path)
     finally:temp.unlink(missing_ok=True)
-    return dict(url=url,file=str(path.relative_to(BASE)),bytes=path.stat().st_size,
+    return dict(url=url,captured_utc=datetime.now(timezone.utc).isoformat(),file=str(path.relative_to(BASE)),bytes=path.stat().st_size,
                 sha256=hashlib.sha256(path.read_bytes()).hexdigest())
 
 
@@ -79,6 +80,43 @@ def isignos():
                 attribution='Cabeza, Carmen / García-Miguel, José M. (dirs). iSignos, versión 1.0. Universidade de Vigo.',
                 scope='Un vídeo y subtítulos castellanos; alineación lingüística no validada; no se han extraído glosas.',
                 license='CC BY-NC 4.0 declarada en texto; enlace discrepante BY 4.0 conservado; se aplica NC')
+    save(out/'inventario.json',result)
+    return result
+
+
+def validate_dilse(data,app):
+    if not isinstance(data,list) or len(data)!=1 or data[0].get('id')!=1697 or data[0].get('entrada')!='hola':
+        raise ValueError('La consulta ya no corresponde a la muestra fijada')
+    row=data[0]
+    if row.get('foto')!='https://panel.fundacioncnse-dilse.org/storage/hola.png' or row.get('video')!='https://panel.fundacioncnse-dilse.org/storage/hola.mov':
+        raise ValueError('Recursos distintos de los revisados; detener antes de descargar')
+    legal=next((x['contenido'] for x in app['creditos'] if x.get('titulo')=='Propiedad intelectual'),None)
+    if not legal:raise ValueError('Faltan condiciones de propiedad intelectual')
+    plain=html.unescape(re.sub('<[^>]+>',' ',legal))
+    if 'derechos de reproducción' not in plain or 'sin ánimo de lucro' not in plain:
+        raise ValueError('No se localiza la autorización revisada')
+    return row,plain
+
+
+def dilse():
+    out=ROOT/'dilse';out.mkdir(parents=True,exist_ok=True,mode=0o700)
+    resources=[]
+    resources.append(fetch('https://fundacioncnse-dilse.org/api_nueva/datos_app.php',out/'condiciones-app.json',500_000))
+    resources.append(fetch('https://fundacioncnse-dilse.org/api_nueva/lista_palabras_completa_paginada.php?cantidad=1&buscar=hola',out/'entrada-hola.json',300_000))
+    row,legal=validate_dilse(json.loads((out/'entrada-hola.json').read_text()),json.loads((out/'condiciones-app.json').read_text()))
+    resources.append(fetch(row['foto'],out/'hola.png',2_000_000))
+    resources.append(fetch(row['video'],out/'hola.mov',3_000_000))
+    analysis=dict(entry_id=row['id'],lexeme=row['entrada'],
+        parameter_ids={key:[r['id'] for r in values] for key,values in row['parametros'].items()},
+        semantics='IDs de parámetros de la fuente, no articulaciones ni coordenadas; significado no resuelto.',
+        original_media_modified=False,new_inference=False,training=False)
+    save(out/'analisis.json',analysis)
+    result=dict(status='muestra_privada_no_comercial',attribution='Fundación CNSE para la Supresión de las Barreras de Comunicación. DILSE. Entrada hola, ID 1697.',
+        resources=resources,legal_basis='Autorización expresa actual de reproducción no lucrativa, conservando originales para estudio privado educativo. No se afirma autorización general de entrenamiento.',
+        reviewed_conditions='API de créditos/Propiedad intelectual que consulta el cliente web actual; no solo texto indexado antiguo.',
+        tdm_assessment='No se necesita presumir una excepción para esta copia acotada basada en autorización; otros usos y reservas se revisan por separado.',
+        explicit_tdm_mentions_in_reviewed_text=[word for word in ['minería','inteligencia artificial','entrenamiento','machine learning'] if word in legal.lower()],
+        disclaimer='La ausencia de esos términos en este texto no acredita ausencia de toda reserva ni resuelve privacidad, pesos o explotación de derivados.')
     save(out/'inventario.json',result)
     return result
 
@@ -169,21 +207,21 @@ def fingerspelling():
 def main():
     os.umask(0o077)
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--incorporar',choices=['isignos','dactilologia'])
+    parser.add_argument('--incorporar',choices=['isignos','dactilologia','dilse'])
     args=parser.parse_args();ROOT.mkdir(parents=True,exist_ok=True,mode=0o700)
     if args.incorporar:
-        result={'isignos':isignos,'dactilologia':fingerspelling}[args.incorporar]()
+        result={'isignos':isignos,'dactilologia':fingerspelling,'dilse':dilse}[args.incorporar]()
         print(json.dumps(dict(source=args.incorporar,status=result['status']),ensure_ascii=False))
     rows=[]
     for source in SOURCES:
-        row=dict(source);folder={'isignos':'isignos','dactilologia-lse':'dactilologia'}.get(source['id'])
+        row=dict(source);folder={'isignos':'isignos','dactilologia-lse':'dactilologia','dilse':'dilse'}.get(source['id'])
         if folder and (ROOT/folder/'inventario.json').exists():
             row['status']='muestra_local_incorporada';row['manifest']=str((ROOT/folder/'inventario.json').relative_to(BASE))
         rows.append(row)
     save(ROOT/'registro.json',dict(updated=datetime.now(timezone.utc).isoformat(),
         policy='Solo análisis privado no comercial; sin publicación, entrenamiento ni APIs externas. Licencia explícita preferida; excepción TDM no presumida.',sources=rows))
     links={'uvigo-health':'../reproduccion-2d/VALIDAR.html','bancolse':'../bancolse/VALIDAR.html',
-           'isignos':'../../datos/fuentes-privadas/isignos/PS-NXG.mp4'}
+           'isignos':'../../datos/fuentes-privadas/isignos/PS-NXG.mp4','dilse':'../../datos/fuentes-privadas/dilse/hola.mov'}
     spelling=ROOT/'dactilologia/inventario.json'
     if spelling.exists():links['dactilologia-lse']='../../'+json.loads(spelling.read_text())['file']
     cards=[]

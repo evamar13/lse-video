@@ -6,15 +6,16 @@
 
 Autorización de Eva: aprovechar las fuentes ya investigadas para análisis de datos, sin publicar materiales ni derivados. Los permisos de terceros se comprueban por fuente; no se presume la excepción de minería. No se inicia entrenamiento ni se envían datos a APIs de IA. Datos e inventarios están en `datos/fuentes-privadas/`, fuera de Git, con directorios de acceso exclusivo al usuario. El panel local es `outputs/fuentes/ESTADO.html`.
 
-`fuentes_privadas.py` registra nueve fuentes, distinguiendo acceso y uso real. Hay muestras de cuatro fuentes: UVigo y BancoLSE ya existentes, más iSignos y dactilología. Los otros cinco registros no son corpus descargados. Comandos: `python3 fuentes_privadas.py` actualiza inventario/panel; `--incorporar isignos` o `--incorporar dactilologia` descarga únicamente las muestras acotadas. No sobrescribe archivos ni amplía presupuestos al fallar.
+`fuentes_privadas.py` registra nueve fuentes, distinguiendo acceso y uso real. Hay muestras de cinco fuentes: UVigo, BancoLSE, iSignos, dactilología y DILSE. Los otros cuatro registros no son corpus descargados. Comandos: `python3 fuentes_privadas.py` actualiza inventario/panel; `--incorporar isignos`, `--incorporar dactilologia` o `--incorporar dilse` descarga únicamente las muestras acotadas. No sobrescribe archivos ni amplía presupuestos al fallar.
 
 - **iSignos/RADIS**: [portal](https://isignos.uvigo.es/), [ficha seleccionada en castellano](https://isignos.uvigo.es/es/metadata/16a90a5a-3406-4544-81d5-2e9f10905440). Un vídeo de 168,04 s, 720×576, decodificación comprobada; WebVTT castellano con 229 marcas de subtítulos y guía de anotación descargados. No se han extraído glosas ni validado alineación lingüística. Atribución: Cabeza, Carmen / García-Miguel, José M. (dirs.), iSignos, versión 1.0, Universidade de Vigo. El texto declara CC BY-NC 4.0, aunque el enlace dirige a BY 4.0: se archiva la discrepancia y se limita el uso a no comercial. Presupuestos: vídeo 30 MB, guía 3 MB, cada página/subtítulo 0,5 MB. No se descarga la colección.
 - **Dactilología LSE**: [registro y atribución](https://zenodo.org/records/21351703), DOI 10.5281/zenodo.21351703, CC BY 4.0 declarada en la ficha. Una imagen de variante Original del ZIP 192: 14.014 bytes; transferencia parcial observada 11.269.378 bytes, incluidos los bloques necesarios para localizarla. Conserva nombre de entrada, CRC-32 y SHA-256; no se verifica el MD5 del ZIP completo ni se descarga el archivo de 12,3 GB. La extracción detiene la búsqueda tras 256 cabeceras, limita entrada/descompresión a 1 MB y transferencia a 24 MiB. Es una muestra de acceso, no representativa ni una anotación verdadera de dedos. No sirve como corpus de frases. Atribución completa en el inventario local y ficha original.
 - **LSE-HoReCo**: [ficha oficial](https://taalmaterialen.ivdnt.org/download/lse_horeco/), CC BY-NC 3.0. Traducciones español–LSE; requiere cuenta para descargar. Pendiente de acceso autorizado, sin eludir login ni descargar el ZIP.
 - **Cervantes**: metadatos CC0 confirmados; vídeos y acceso al registro concreto pendientes. No se extiende CC0 a las grabaciones.
-- **Congreso y YouTube**: candidatos documentados, sin incorporación como corpus mientras no se resuelva el uso concreto. La privacidad no sustituye las condiciones de acceso ni los derechos aplicables.
+- **Congreso**: revisión directa del aviso legal el 26/11/2026 responde HTTP 403; respuesta, cabeceras y SHA-256 guardados en `datos/fuentes-privadas/revision-congreso/`. No se ha podido completar la revisión actual ni se ha descargado vídeo. No se elude el bloqueo ni se presume una prohibición general de minería.
+- **YouTube**: pendiente de revisar el vídeo concreto y condiciones de acceso automatizado. La privacidad no sustituye las condiciones aplicables.
 
-**Actualización DILSE:** la [página específica indexada](https://fundacioncnse-dilse.org/condiciones-uso.php) declara CC BY-NC-SA 3.0 y añade condiciones, entre ellas una prohibición de poner fotos/vídeos a disposición de terceros como diccionario. La respuesta directa actual devuelve un cliente Flutter y no ese texto legible. Se registra esta evidencia, sin afirmar que resuelve las contradicciones con el aviso general o todos los usos de IA. Consulta posible; descarga/extracción pendiente de comprobar recursos y condiciones actuales. No se ha incorporado material de DILSE ni replicado su diccionario.
+**DILSE incorporado:** el cliente web actual consulta [datos de la aplicación](https://fundacioncnse-dilse.org/api_nueva/datos_app.php), incluidos los créditos de propiedad intelectual. Se comprobó la autorización de reproducción no lucrativa y se archivó la respuesta. Una consulta pública acotada obtuvo la entrada hola (1697), foto y vídeo originales de 1,72 s/1280×1080. Sin modificar, analizar con IA ni publicar medios. La muestra se basa en esa autorización concreta; no se declara una autorización general de entrenamiento por minería ni CC para la aplicación actual. Dos respuestas de la misma entrada difieren en IDs de parámetros; ambas se conservaron. Los códigos quedan sin validar, separados de coordenadas de dedos.
 
 Eva autoriza aprovechar los recursos reutilizables. La autorización no sustituye los permisos de sus titulares. No se inicia entrenamiento ni descarga masiva.
 
@@ -26,9 +27,11 @@ Eva autoriza aprovechar los recursos reutilizables. La autorización no sustituy
 
 Las imágenes sirven como referencia léxica, no como trayectorias completas o gramática de frases. Este uso educativo no comercial no acredita autorización para cualquier entrenamiento, publicación de pesos, clonación de apariencia o explotación en Twitch monetizado. Revisar cada operación antes de realizarla. El código propio permanece separado bajo MIT.
 
-### DILSE: candidato pendiente
+### DILSE: muestra privada y revisión concreta
 
-[DILSE](https://fundacioncnse-dilse.org/): utilizable como referencia de consulta. La captura de condiciones aportada concede reproducción, distribución y comunicación pública no lucrativas con condiciones; el aviso legado presenta diferencias. No es una prohibición general de uso. Para extracción o entrenamiento, evaluar también la minería de datos del [artículo 67 del RDL 24/2021](https://www.boe.es/buscar/act.php?id=BOE-A-2021-17910#a6-9): acceso legítimo y reserva expresa adecuada, sin presumir que cualquier aviso genérico constituye esa reserva. Esa excepción no autoriza automáticamente redistribución, transformación ni clonación de apariencia. El alcance sobre recursos concretos sigue pendiente antes de incorporarlos como corpus. No extender la licencia de BancoLSE a otro servicio de la misma entidad.
+Originales, condiciones, ficha y comparación de parámetros en `datos/fuentes-privadas/dilse/`. La declaración CC de la página indexada antigua se distingue de las condiciones actuales recuperadas de la aplicación. No se necesita presumir la excepción de minería para la copia limitada autorizada; extracción de movimientos, pesos y derivados requieren valorar su operación concreta. No se replica ni distribuye el diccionario.
+
+La falta de licencia abierta no prueba prohibición de minería: revisar acceso legítimo y reserva expresa adecuada conforme al [artículo 67](https://www.boe.es/buscar/act.php?id=BOE-A-2021-17910#a6-9). No encontrar palabras como «minería» en un texto no acredita que no exista reserva en otros medios.
 
 ### YouTube: candidato pendiente
 
@@ -38,7 +41,8 @@ Las imágenes sirven como referencia léxica, no como trayectorias completas o g
 
 - UVigo: ejemplos continuos con traducción alineada y extracción técnica experimental ya realizada; condiciones no comerciales propias.
 - BancoLSE: referencia visual de vocabulario.
-- Cervantes, DILSE y YouTube: candidatos documentados, pendientes de comprobar derechos y correspondencia lingüística antes de incorporarlos como corpus.
+- DILSE: muestra léxica privada incorporada; parámetros sin validar.
+- Cervantes y YouTube: candidatos documentados, pendientes de revisión concreta antes de incorporar vídeos.
 
 No unificar licencias incompatibles ni presentar la colección como dataset validado. Etiqueta léxica, traducción de una frase y descripción generada por IA son evidencias distintas.
 

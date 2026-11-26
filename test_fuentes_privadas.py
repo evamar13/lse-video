@@ -1,7 +1,7 @@
 import io
 import unittest
 import zipfile
-from fuentes_privadas import central_start, single_image
+from fuentes_privadas import central_start, single_image,validate_dilse
 
 
 class Remote(io.BytesIO):
@@ -33,6 +33,14 @@ class PrivateSourceTests(unittest.TestCase):
 
     def test_rejects_non_zip(self):
         with self.assertRaises(ValueError):central_start(Remote(b'not a zip'))
+
+    def test_dilse_rejects_media_outside_reviewed_scope(self):
+        data=[dict(id=1697,entrada='hola',foto='https://unreviewed.example/image',video='https://panel.fundacioncnse-dilse.org/storage/hola.mov')]
+        with self.assertRaises(ValueError):validate_dilse(data,dict(creditos=[]))
+
+    def test_dilse_requires_express_legal_evidence(self):
+        data=[dict(id=1697,entrada='hola',foto='https://panel.fundacioncnse-dilse.org/storage/hola.png',video='https://panel.fundacioncnse-dilse.org/storage/hola.mov')]
+        with self.assertRaises(ValueError):validate_dilse(data,dict(creditos=[dict(titulo='Propiedad intelectual',contenido='Aviso sin autorización de uso')]))
 
 
 if __name__=='__main__':unittest.main()
