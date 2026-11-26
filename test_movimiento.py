@@ -25,4 +25,11 @@ class MotionTests(unittest.TestCase):
                     main()
                 self.assertEqual(error.exception.code,2)
 
+    def test_explicit_fluid_profile_does_not_allow_unbounded_sampling(self):
+        for option,value in [('--seconds','7'),('--fps','30')]:
+            with patch('sys.argv',['extraer_movimiento.py','--task','synthetic','--perfil','fluido',option,value]):
+                with contextlib.redirect_stderr(io.StringIO()),self.assertRaises(SystemExit) as error:
+                    main()
+                self.assertEqual(error.exception.code,2)
+
 if __name__=='__main__':unittest.main()

@@ -56,6 +56,18 @@ Máximo seis segundos y cinco muestras/s por ejecución. No sobrescribe un resul
 
 ## Siguiente paso
 
+### Perfil de mayor frecuencia aprobado visualmente
+
+Eva considera adecuada visualmente la muestra de manos y autoriza continuar. Esta aprobación de apariencia no se registra como exactitud medida ni validación lingüística. Se añade `--perfil fluido` al extractor: 15 Hz explícitos, máximo seis segundos/90 muestras, salida independiente `outputs/movimiento-15fps/`. El perfil predeterminado conserva sus límites de 1–5 Hz. No se modifican el bloqueo, delegate CPU, consultas de recursos cada cinco fotogramas, pausa entre llamadas, descarga del modelo al terminar ni presupuesto temporal de 90 segundos.
+
+Ejecución del 26 de noviembre: 87 observaciones del mismo fragmento de 5,8 s, 48,4 s de ejecución completa. Cuerpo, rostro y mano derecha detectados en 87/87; izquierda en 83/87, ausente en 1.133, 1.200, 2.600 y 3.533 ms relativos. Se conservan las ausencias. Los tiempos reportados por el decodificador corresponden a 87 fotogramas distintos; desviación máxima observada respecto al seek solicitado: 17 ms. El SHA-256 del JSON de la captura inicial permanece idéntico. No se interpola ni se entrena.
+
+Dieciocho muestras de recursos globales: GPU 0 %, CPU 12,02–29,14 %, presión de RAM normal, sin aviso térmico. No son garantías continuas ni mediciones de temperatura. Las 87 inferencias llevan proyecto, tarea `movimiento-fluido-20261126` y ejecutor `motion.extractor` en contabilidad.
+
+Visor: `outputs/reproduccion-2d-15fps/VALIDAR.html`. Reconstrucción sin inferencia: `.venv/bin/python reproducir_2d.py --fluido`. Enlaces entre las versiones de 5 y 15 Hz; controles ajustados a la frecuencia y tolerancia de sincronización reducida a media muestra. La segunda captura experimental de recortes permanece en la versión de 5 Hz y no se mezcla con la nueva extracción. Ambos visores incluyen una imagen de vista previa del original, almacenada localmente.
+
+Verificación: 29 pruebas Python, ocho comprobaciones de interacción en Chrome para el perfil nuevo y vista de escritorio inspeccionada. La prueba detectó una tolerancia de sincronización heredada demasiado amplia para 15 Hz; se corrigió y la comprobación pasó. Las pruebas no cuantifican deriva prolongada, error de articulaciones ni comprensión en LSE. Más frecuencia temporal no demuestra mayor precisión espacial.
+
 ### Detalle de dedos y segunda observación de manos
 
 El visor incorpora ampliaciones separadas con 21 puntos identificados por mano y cinco cadenas de dedos en colores distintos. La muñeca del brazo se ancla visualmente al punto 0 de la mano para eliminar separaciones de dibujo; no se modifica la observación original ni se presenta el anclaje como una mejora medida del detector. La ampliación ajusta el encuadre de cada mano, por lo que no conserva una escala fija entre fotogramas.

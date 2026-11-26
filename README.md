@@ -81,6 +81,8 @@ Formato, límites y resultado de la muestra: [CONTRATO.md](CONTRATO.md). No conf
 
 La comparación posterior está en `outputs/reproduccion-2d/VALIDAR.html`: original, seguimiento y figura SVG de los mismos puntos, con controles comunes, avance por fotograma y aviso de mano ausente. No usa inferencias nuevas ni interpola pérdidas. Para reconstruirla: `.venv/bin/python reproducir_2d.py` (requiere OpenCV y los artefactos locales existentes). Detalles en [MOVIMIENTO.md](MOVIMIENTO.md).
 
+Tras la aprobación visual de Eva, se añade un perfil independiente de 15 Hz para el mismo fragmento, sin interpolación: `outputs/reproduccion-2d-15fps/VALIDAR.html`. Se reconstruye con `.venv/bin/python reproducir_2d.py --fluido` cuando existe la extracción correspondiente. La muestra inicial y la comparación experimental de recortes de manos a 5 Hz se conservan.
+
 Se ejecutó una muestra CPU de 5,8 segundos: 29 fotogramas con resultados y pérdidas explícitas. La vista local está en `outputs/movimiento/VALIDAR.html`. Muestra el original con puntos superpuestos, no un signante sintético. El código no asume que detectar puntos valide la LSE.
 
 [Resultado, límites, requisitos y reproducción](MOVIMIENTO.md). Los modelos están fuera del repositorio; vídeos, puntos y vistas siguen excluidos de Git.

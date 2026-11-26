@@ -28,5 +28,13 @@ class ReproductionTests(unittest.TestCase):
         svg=svg_frame(frame,720,405)
         self.assertIn('cx="360.00" cy="202.50"',svg)
 
+    def test_fluid_profile_preserves_all_real_samples(self):
+        data=observation();data['sample_fps']=15
+        first=data['frames'][0]
+        data['frames']=[dict(t_ms=round(i*1000/15),points=first['points']) for i in range(87)]
+        self.assertEqual(len(validate(data)),87)
+        data['frames']*=2
+        with self.assertRaises(ValueError):validate(data)
+
 
 if __name__ == '__main__': unittest.main()

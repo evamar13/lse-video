@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extracción experimental CPU de un único fragmento (máximo 6 s y 5 muestras/s)."""
+"""Extracción CPU de un fragmento de hasta 6 s; perfiles explícitos de 5 o 15 Hz."""
 import os
 # Son indicaciones de hilos para bibliotecas; MediaPipe no expone un tope universal.
 for variable in ['OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','VECLIB_MAXIMUM_THREADS',
@@ -73,9 +73,12 @@ def main():
     parser.add_argument('--task',required=True)
     parser.add_argument('--agent',default='motion.extractor')
     parser.add_argument('--seconds',type=float,default=6)
-    parser.add_argument('--fps',type=int,default=5)
+    parser.add_argument('--fps',type=int)
+    parser.add_argument('--perfil',choices=['base','fluido'],default='base')
     args=parser.parse_args()
-    if not 0<args.seconds<=6 or not 1<=args.fps<=5:parser.error('Muestra máxima: 6 segundos y 5 muestras/s.')
+    args.fps=args.fps if args.fps is not None else (15 if args.perfil=='fluido' else 5)
+    if not 0<args.seconds<=6 or not (args.fps==15 if args.perfil=='fluido' else 1<=args.fps<=5):
+        parser.error('Máximo 6 s. Perfil base: 1–5 Hz; perfil fluido explícito: 15 Hz, hasta 90 muestras.')
     if not args.ffmpeg or not Path(args.ffmpeg).is_file():parser.error('Indicar un ejecutable FFmpeg existente con --ffmpeg.')
     if not (args.guard_tools/'recursos_locales.py').is_file() or not (args.guard_tools/'telemetria.py').is_file():
         parser.error('Falta adaptador de recursos/contabilidad. No se ejecuta sin guardia; consultar MOVIMIENTO.md.')
@@ -93,7 +96,7 @@ def main():
     media=next(r for r in files if Path(r['file']).stem==Path(sample['elan_file']).stem)
     video=base/'datos/videos'/media['file']
     if hashlib.sha256(video.read_bytes()).hexdigest()!=media['sha256']:raise ValueError('Vídeo modificado desde la descarga.')
-    output=base/'outputs/movimiento';output.mkdir(parents=True,exist_ok=True)
+    output=base/'outputs'/('movimiento-15fps' if args.perfil=='fluido' else 'movimiento');output.mkdir(parents=True,exist_ok=True)
     if (output/'resumen.json').exists():raise FileExistsError('La muestra ya existe; conservarla antes de repetir inferencias.')
     start=sample['start_ms']/1000;duration=min(args.seconds,(sample['end_ms']-sample['start_ms'])/1000)
     frames=[];counts=dict.fromkeys(['pose','face','left_hand','right_hand'],0)
@@ -168,7 +171,7 @@ def main():
         print(str(exc),file=sys.stderr)
     finally:
         observation={'version':'0.1-motion-observation','status':status,'run_id':run_id,
-            'project':'LSE Video','task':args.task,'agent':args.agent,'source_url':'https://zenodo.org/records/10234465',
+            'project':'LSE Video','task':args.task,'agent':args.agent,'profile':args.perfil,'source_url':'https://zenodo.org/records/10234465',
             'license':'CC BY-NC 4.0 según ficha del corpus; no redistribuir automáticamente',
             'video_file':media['file'],'video_sha256':media['sha256'],'start_ms':sample['start_ms'],
             'model_url':MODEL_URL,'model_sha256':MODEL_SHA,'delegate':'CPU','sample_fps':args.fps,

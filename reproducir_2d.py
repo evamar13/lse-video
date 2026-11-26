@@ -2,6 +2,7 @@
 """Reproduce observaciones existentes en SVG 2D, sin modelos ni interpolación."""
 import hashlib
 import html
+import argparse
 import json
 import math
 from pathlib import Path
@@ -45,8 +46,9 @@ def validate(observation):
     if observation.get('status') != 'complete':
         raise ValueError('Se requiere una extracción completa')
     frames = observation['frames']
-    if not frames or len(frames) > 30 or observation['sample_fps'] != 5:
-        raise ValueError('Solo muestra existente de hasta 30 fotogramas a 5 Hz')
+    fps=observation['sample_fps']
+    if fps not in (5,15) or not frames or len(frames)>6*fps:
+        raise ValueError('Solo perfiles acotados de hasta 6 s a 5 o 15 Hz')
     previous = -1
     for frame in frames:
         t = frame['t_ms']
@@ -100,8 +102,9 @@ def svg_frame(frame, width, height):
     return ''.join(result)
 
 
-def build():
-    motion = BASE/'outputs/movimiento/movimiento.json'
+def build(fluido=False):
+    motion_folder='movimiento-15fps' if fluido else 'movimiento'
+    motion = BASE/'outputs'/motion_folder/'movimiento.json'
     observation = json.loads(motion.read_text())
     frames = validate(observation)
     video_name = observation['video_file']
@@ -115,6 +118,8 @@ def build():
     cap = cv2.VideoCapture(str(original))
     try:
         width, height = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        cap.set(cv2.CAP_PROP_POS_MSEC,frames[0]['source_t_ms'])
+        preview_ok,preview=cap.read()
     finally:
         cap.release()
     if width <= 0 or height <= 0:
@@ -132,11 +137,15 @@ def build():
         def handle_data(self,data):
             if self.active: self.text += data
     parser = Translation()
-    parser.feed((BASE/'outputs/movimiento/VALIDAR.html').read_text())
+    parser.feed((BASE/'outputs'/motion_folder/'VALIDAR.html').read_text())
     if not parser.text:
         raise ValueError('Falta traducción de referencia')
-    output = BASE/'outputs/reproduccion-2d'
+    output = BASE/'outputs'/('reproduccion-2d-15fps' if fluido else 'reproduccion-2d')
     output.mkdir(parents=True,exist_ok=True)
+    if not preview_ok:raise ValueError('No se pudo crear la vista previa del original')
+    preview=cv2.resize(preview,(720,round(preview.shape[0]*720/preview.shape[1])))
+    if not cv2.imwrite(str(output/'original-preview.jpg'),preview,[cv2.IMWRITE_JPEG_QUALITY,85]):
+        raise ValueError('No se pudo guardar la vista previa')
     svgs = [svg_frame(f,width,height) for f in frames]
     missing = [f['t_ms'] for f in frames if not f['points']['left_hand']]
     payload = dict(svg=svgs, times=[f['t_ms'] for f in frames],
@@ -145,7 +154,7 @@ def build():
     payload['hands']=[[hand_detail(f['points'][name],width,height) for name in ('left_hand','right_hand')] for f in frames]
     candidate_file=BASE/'outputs/manos-detalle/candidatos.json'
     payload['experiments']={}
-    if candidate_file.exists():
+    if candidate_file.exists() and not fluido:
         from copy import deepcopy
         experiment=json.loads(candidate_file.read_text())
         if experiment['source_motion_sha256']!=hashlib.sha256(motion.read_bytes()).hexdigest():
@@ -158,10 +167,13 @@ def build():
                 accepted=bool(record['matched']),status=record['status'])
     template = (BASE/'reproduccion_2d.html').read_text()
     page = template.replace('__VIDEO__',html.escape(video_name,quote=True)).replace('__TRANSLATION__',html.escape(parser.text))
+    page = page.replace('__MOTION_FOLDER__',motion_folder)
+    alternative='../reproduccion-2d/VALIDAR.html' if fluido else '../reproduccion-2d-15fps/VALIDAR.html'
+    page = page.replace('__ALTERNATIVE_URL__',alternative).replace('__ALTERNATIVE_LABEL__','Comparar con la muestra inicial (5 Hz)' if fluido else 'Ver muestra de movimiento más fluida (15 Hz)')
     page = page.replace('__DATA__',json.dumps(payload,ensure_ascii=False).replace('<','\\u003c'))
     (output/'VALIDAR.html').write_text(page)
     (output/'fotograma.svg').write_text(svgs[0])
-    report = dict(frames=len(frames), sample_fps=5, duration_ms=frames[-1]['t_ms']+200,
+    report = dict(frames=len(frames), sample_fps=observation['sample_fps'], duration_ms=round(frames[-1]['t_ms']+1000/observation['sample_fps']),
                   missing_left_hand_ms=missing, motion_sha256=hashlib.sha256(motion.read_bytes()).hexdigest(),
                   new_inference=False, interpolation=False, linguistic_review='pending',
                   source=observation['source_url'], license=observation['license'])
@@ -172,4 +184,6 @@ def build():
 
 
 if __name__ == '__main__':
-    build()
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--fluido',action='store_true',help='Leer la extracción independiente de 15 Hz')
+    build(parser.parse_args().fluido)
