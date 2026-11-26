@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LSE · del vídeo al movimiento 2D</title>
+<style>
+*{box-sizing:border-box}body{font:17px/1.5 system-ui;background:#f5f0e7;color:#263e39;margin:0;padding:32px;max-width:1600px;margin:auto}h1{font:36px Georgia;margin:10px 0}h2{font-size:18px;margin:0 0 12px}small{color:#586a63}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:24px 0}section{background:white;padding:16px;border:1px solid #dedbd1;border-radius:14px}video,svg{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#172229}#figure svg{background:#f5f0e7}button,select{font:inherit;padding:9px 15px;border-radius:8px;border:1px solid #9aa9a0;background:white;color:#263e39;cursor:pointer}button:disabled{opacity:.5;cursor:wait}#play{background:#315f51;color:white}.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}input{flex:1;min-width:160px;accent-color:#315f51}.reference{border-left:4px solid #b29467;padding:12px 18px;background:#fffaf0}.alert{color:#9b4426;min-height:1.5em}#frame{font-variant-numeric:tabular-nums}footer{font-size:14px;margin-top:24px}@media(max-width:950px){.grid{grid-template-columns:1fr}body{padding:20px}video,svg{max-height:340px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+<small>LSE VIDEO · EXPERIMENTO LOCAL NO COMERCIAL</small>
+<h1>Del vídeo al movimiento 2D</h1>
+<p>La misma muestra en tres vistas. La figura reproduce puntos observados: todavía no interpreta texto ni genera una persona realista.</p>
+<div class="reference"><b>Traducción escrita del corpus</b><p>__TRANSLATION__</p><small>El original no tiene sonido. La traducción no certifica la corrección de la reproducción.</small></div>
+<div class="grid">
+<section><h2>1 · Vídeo original</h2><video id="original" preload="metadata" muted playsinline src="../../datos/videos/__VIDEO__"></video><small>Fuente: LSE-Health-UVigo. Se reproduce solo el fragmento seleccionado.</small></section>
+<section><h2>2 · Seguimiento sobre el vídeo</h2><video id="overlay" preload="metadata" muted playsinline src="../movimiento/seguimiento.mp4"></video><small>Detección previamente calculada; cinco muestras por segundo.</small></section>
+<section><h2>3 · Reproducción geométrica 2D</h2><div id="figure"></div><small>Mano izquierda: verde · derecha: terracota. Sin interpolación, profundidad ni puntos inventados.</small></section>
+</div>
+<div class="controls"><button id="play" disabled>Reproducir</button><button id="previous" aria-label="Fotograma anterior">←</button><button id="next" aria-label="Fotograma siguiente">→</button><input id="seek" type="range" min="0" max="28" step="1" value="0" aria-label="Fotograma de la muestra"><label>Velocidad <select id="speed"><option value="0.5">0,5×</option><option value="1" selected>1×</option></select></label><output id="frame"></output></div>
+<p class="alert" id="warning" role="status"></p>
+<p><b>Qué revisar:</b> visibilidad de dedos y boca, pérdidas de seguimiento y diferencias entre el original y la figura. La revisión de comprensión en LSE está pendiente de personas competentes.</p>
+<footer><a href="https://zenodo.org/records/10234465">Corpus y autoría</a> · CC BY-NC 4.0 según ficha institucional · Uso experimental no comercial, sin redistribución automática.<br>Figura técnica plana: no resuelve orientación de palmas, oclusiones ni contactos. Una misma proyección 2D puede ocultar configuraciones distintas. La baja frecuencia puede perder movimientos rápidos.</footer>
+<script>
+'use strict';
+const data=__DATA__;
+const original=document.getElementById('original'), overlay=document.getElementById('overlay'), figure=document.getElementById('figure'), seek=document.getElementById('seek'), play=document.getElementById('play'), warning=document.getElementById('warning');
+let timer=null,index=0,ready=false;
+const duration=(data.times.at(-1)+1000/data.fps)/1000;
+seek.max=data.times.length-1;
+function draw(i){index=Math.max(0,Math.min(data.times.length-1,i));figure.innerHTML=data.svg[index];seek.value=index;document.getElementById('frame').textContent=`${index+1}/${data.times.length} · ${(data.times[index]/1000).toFixed(1)} s`;warning.textContent=data.missing[index]?'Seguimiento incompleto: una mano no fue detectada y no se dibuja.':'';}
+function stop(){original.pause();if(timer!==null)clearInterval(timer);timer=null;play.textContent='Reproducir';}
+function select(i){stop();draw(i);if(ready){original.currentTime=data.start+data.times[index]/1000;overlay.currentTime=data.times[index]/1000;}}
+function tick(){const t=original.currentTime-data.start;if(t>=duration){stop();select(0);return;}let i=0;while(i+1<data.times.length&&data.times[i+1]<=t*1000)i++;if(i!==index)draw(i);if(Math.abs(overlay.currentTime-t)>.12)overlay.currentTime=Math.max(0,t);}
+play.addEventListener('click',async()=>{if(!original.paused){stop();return;}try{if(original.currentTime<data.start||original.currentTime>=data.start+duration)original.currentTime=data.start;await original.play();play.textContent='Pausar';timer=setInterval(tick,100);}catch(e){stop();warning.textContent='No se pudo reproducir el vídeo. Usa las flechas para revisar la figura.';}});
+original.addEventListener('loadedmetadata',()=>{ready=true;original.currentTime=data.start;play.disabled=false;});
+overlay.addEventListener('loadedmetadata',()=>{overlay.currentTime=data.times[index]/1000;});
+for(const v of [original,overlay])v.addEventListener('error',()=>{warning.textContent='No se pudo cargar un vídeo local. La figura sigue disponible con las flechas.';});
+document.getElementById('previous').onclick=()=>select(index-1);
+document.getElementById('next').onclick=()=>select(index+1);
+seek.oninput=()=>select(Number(seek.value));
+document.getElementById('speed').onchange=e=>{original.playbackRate=Number(e.target.value);};
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+window.addEventListener('pagehide',stop);
+draw(0);
+// Prueba local determinista del visor, sin red ni reproducción automática.
+if(location.search==='?test=1'){
+ (async()=>{
+  document.body.dataset.phase='metadata';
+  const metadata=v=>v.readyState>=1?Promise.resolve():new Promise((resolve,reject)=>{v.addEventListener('loadedmetadata',resolve,{once:true});v.addEventListener('error',reject,{once:true});});
+  await Promise.all([metadata(original),metadata(overlay)]);
+  document.body.dataset.phase='controls';
+  const checks=[data.svg.length===29,original.videoWidth>0,overlay.videoWidth>0];
+  select(1);checks.push(index===1&&seek.value==='1');
+  select(13);checks.push(data.missing[index]&&figure.querySelector('[data-channel="left_hand"]').getAttribute('data-present')==='false');
+  original.currentTime=data.start+1.21;tick();checks.push(index===6&&Math.abs(overlay.currentTime-1.21)<.01);
+  document.body.dataset.phase='play';original.play().catch(()=>{});checks.push(!original.paused);stop();checks.push(original.paused&&timer===null);
+  select(0);document.body.dataset.selftest=checks.every(Boolean)?'passed':'failed';document.body.dataset.checks=JSON.stringify(checks);
+ })().catch(()=>{document.body.dataset.selftest='failed';});
+}
+</script></html>

@@ -14,7 +14,7 @@ Las imágenes sirven como referencia léxica, no como trayectorias completas o g
 
 ### DILSE: candidato pendiente
 
-[DILSE](https://fundacioncnse-dilse.org/): los textos aportados y el aviso legado presentan diferencias sobre adaptación y distribución. No se incorpora como corpus. No extender la licencia de BancoLSE a otro servicio de la misma entidad.
+[DILSE](https://fundacioncnse-dilse.org/): utilizable como referencia de consulta. La captura de condiciones aportada concede reproducción, distribución y comunicación pública no lucrativas con condiciones; el aviso legado presenta diferencias. No es una prohibición general de uso. Para extracción o entrenamiento, evaluar también la minería de datos del [artículo 67 del RDL 24/2021](https://www.boe.es/buscar/act.php?id=BOE-A-2021-17910#a6-9): acceso legítimo y reserva expresa adecuada, sin presumir que cualquier aviso genérico constituye esa reserva. Esa excepción no autoriza automáticamente redistribución, transformación ni clonación de apariencia. El alcance sobre recursos concretos sigue pendiente antes de incorporarlos como corpus. No extender la licencia de BancoLSE a otro servicio de la misma entidad.
 
 ### YouTube: candidato pendiente
 

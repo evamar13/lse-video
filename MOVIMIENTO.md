@@ -56,4 +56,14 @@ Máximo seis segundos y cinco muestras/s por ejecución. No sobrescribe un resul
 
 ## Siguiente paso
 
+### Reproducción geométrica 2D implementada
+
+`reproducir_2d.py` genera `outputs/reproduccion-2d/VALIDAR.html` con original, seguimiento previo y figura SVG plana. Reutiliza los 29 fotogramas sin nuevas inferencias. Controles comunes: reproducir/pausar, velocidad 0,5× o 1×, barra y flechas por muestra. La figura y el seguimiento se actualizan según el reloj del original (consulta cada 100 ms solo al reproducir); no hay interpolación ni reproducción continua en segundo plano. El panel de seguimiento se desplaza por posiciones, no tiene un segundo reloj de reproducción independiente. No se garantiza sincronización exacta a fotograma del decodificador; sigue vigente la incertidumbre temporal de la primera extracción.
+
+Se conserva la relación de aspecto del vídeo y se verifica su SHA-256 contra la observación. La mano izquierda ausente a los 2,6 s no se dibuja y se anuncia. Se dibujan articulaciones, contorno facial, labios, ojos y cejas observados; no se infieren contactos, profundidad, rotaciones de dedos ni función lingüística facial. La figura es una reproducción geométrica de referencia, no un avatar que traduce texto, una persona realista ni una prueba de comprensión. La traducción es la del fragmento original del corpus; no una descripción automática de lo que entiende la figura.
+
+Ejecución: `.venv/bin/python reproducir_2d.py`. Requiere el OpenCV ya instalado para verificar dimensiones. No importa MediaPipe ni descarga modelos. Pruebas específicas: ausencia de mano sin relleno, coordenadas no finitas, tiempos duplicados y relación de aspecto. Datos, SVG, traducción y galería generados permanecen excluidos de Git. Antes de difusión de derivados, revisar las condiciones del corpus.
+
+Verificación del 26 de noviembre: 17 pruebas Python correctas. Vista de escritorio inspeccionada mediante captura en Chrome headless con GPU desactivada. Autocomprobación local `?test=1`: carga de metadatos/dimensiones de ambos vídeos, navegación de muestras, ausencia de mano, actualización de figura y posición del seguimiento al cambiar el reloj del original, solicitud de reproducción y pausa sin temporizador residual. Ocho comprobaciones correctas. Esta prueba no mide deriva de sincronización durante reproducción prolongada ni comprensión lingüística.
+
 Revisar la pérdida de seguimiento y visibilidad de manos/rostro. Definir el contrato de movimiento estimado separado del contrato lingüístico; después evaluar cómo convertir esos puntos en orientaciones, contactos y una representación utilizable por un generador. No usar todavía estos puntos como prueba de signos correctos ni como entrada definitiva de generación fotorrealista.
