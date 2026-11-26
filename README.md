@@ -83,6 +83,14 @@ Se ejecutó una muestra CPU de 5,8 segundos: 29 fotogramas con resultados y pér
 
 [Resultado, límites, requisitos y reproducción](MOVIMIENTO.md). Los modelos están fuera del repositorio; vídeos, puntos y vistas siguen excluidos de Git.
 
-## Propuesta de glosario e instrucciones
+## Muestra visual BancoLSE
+
+```sh
+python3 preparar_bancolse.py
+```
+
+Abrir `outputs/bancolse/VALIDAR.html`: fotografías y dibujos de hola, gracias y por favor con fuente y licencia. Muestra educativa no comercial, sin IA ni entrenamiento. Originales e inventario SHA-256 en `datos/bancolse/`, excluidos de Git. Las descargas están limitadas a tres entradas y 20 MiB por ejecución. No reutiliza recursos de YouTube sin verificar su licencia. Alcance y permisos en [FUENTES.md](FUENTES.md).
+
+## Diseño del glosario
 
 [GLOSARIO.md](GLOSARIO.md) define la ampliación propuesta: conceptos/signos y construcciones con descripción en castellano, fuentes y mapeo a movimientos. La IA propondría el plan y explicaría sus elecciones; un compilador convertiría parámetros conocidos a comandos. Todavía no hay glosario validado, traductor ni compilador implementados.

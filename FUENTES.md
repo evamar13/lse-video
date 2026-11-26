@@ -1,5 +1,33 @@
 # Datos y referencias
 
+## Incorporación práctica — 26 de noviembre de 2026
+
+Eva autoriza aprovechar los recursos reutilizables. La autorización no sustituye los permisos de sus titulares. No se inicia entrenamiento ni descarga masiva.
+
+### BancoLSE: referencia educativa no comercial incorporada
+
+[Condiciones específicas de Fundación CNSE](https://www.fundacioncnse.org/educa/bancolse/condiciones-de-uso.php): recursos [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). Permite compartir y adaptar con atribución, uso no comercial y compartir igual en las adaptaciones distribuidas. Conservar fuente, titular, licencia y modificaciones. El aviso legal general contiene restricciones distintas; las condiciones específicas y el pie de la web identifican expresamente estos recursos como CC. Archivar la evidencia aplicada a cada muestra.
+
+`preparar_bancolse.py` incorpora seis PNG originales: fotografía y dibujo de las entradas hola, gracias y por favor, sin modificaciones. Descarga secuencial, tres entradas fijas, presupuesto de 20 MiB y SHA-256 por recurso. Comprueba la declaración de licencia esperada antes de obtener las imágenes. No usa IA ni extrae movimientos. Datos, fichas, condiciones e inventario permanecen locales en `datos/bancolse/`; galería en `outputs/bancolse/VALIDAR.html`. No se publican recursos de terceros en GitHub.
+
+Las imágenes sirven como referencia léxica, no como trayectorias completas o gramática de frases. Este uso educativo no comercial no acredita autorización para cualquier entrenamiento, publicación de pesos, clonación de apariencia o explotación en Twitch monetizado. Revisar cada operación antes de realizarla. El código propio permanece separado bajo MIT.
+
+### DILSE: candidato pendiente
+
+[DILSE](https://fundacioncnse-dilse.org/): los textos aportados y el aviso legado presentan diferencias sobre adaptación y distribución. No se incorpora como corpus. No extender la licencia de BancoLSE a otro servicio de la misma entidad.
+
+### YouTube: candidato pendiente
+
+[Personas sordas y lengua de signos](https://www.youtube.com/watch?v=JOpFHf5efe0), I.E.S. Victoria Kent. Título/canal confirmados por oEmbed; licencia, contenido audiovisual completo, permisos de imagen y alineación no comprobados. No descargado ni utilizado para extracción o entrenamiento. [Tipos de licencia de YouTube](https://support.google.com/youtube/answer/2797468?hl=es): la licencia estándar no concede reutilización general. Si se verifica CC BY, registrar versión y procedencia; no presumir excepciones legales por estar publicado en YouTube.
+
+### Complementariedad
+
+- UVigo: ejemplos continuos con traducción alineada y extracción técnica experimental ya realizada; condiciones no comerciales propias.
+- BancoLSE: referencia visual de vocabulario.
+- Cervantes, DILSE y YouTube: candidatos documentados, pendientes de comprobar derechos y correspondencia lingüística antes de incorporarlos como corpus.
+
+No unificar licencias incompatibles ni presentar la colección como dataset validado. Etiqueta léxica, traducción de una frase y descripción generada por IA son evidencias distintas.
+
 Consultadas durante la investigación del 25–26 de noviembre de 2026. Las fuentes evolucionan; fijar versiones y revisar condiciones antes de reutilizar recursos.
 
 ## Corpus de referencia
