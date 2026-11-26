@@ -4,6 +4,8 @@ Esta especificación define el sistema que se quiere construir. Primero se dise�
 
 Actualización de viabilidad de directo: [DIRECTO.md](DIRECTO.md). En Twitch la ruta prioritaria es animar una representación preparada; la generación por difusión de vídeos completos se considera un ensayo offline de apariencia. La personalización realista desde una foto para esa ruta interactiva sigue sin resolver. No presentar MimicMotion como backend de directo ni el presupuesto cero como disponibilidad gratuita garantizada.
 
+Dirección preferida de apariencia: [AVATAR_MODULAR.md](AVATAR_MODULAR.md). Reutilizar manos/brazos y estructura de tronco, ajustar proporciones y materiales y personalizar cara/cuello desde la foto. La preparación ocurre una vez; el directo ejecuta controles coordinados. La deformación facial, retargeting de contactos y ensamblaje siguen pendientes. Salida 2D; no se sustituye por una estética 3D visible.
+
 ## Flujo de uso
 
 ```mermaid

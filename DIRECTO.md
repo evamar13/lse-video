@@ -23,6 +23,8 @@ Hay tres trabajos diferentes: reconocer voz, interpretar a LSE y representar mov
 
 ## La foto no sustituye al modelo animable
 
+Concreción aportada por Eva: [avatar modular](AVATAR_MODULAR.md), con manos/brazos y estructura de cuerpo comunes, adaptaciones de color/proporciones/ropa y cara/cuello personales. Es la dirección prioritaria para investigar la representación animable; todavía no hay un ensamblador o renderizador de este avatar implementado.
+
 Preparar una imagen frontal mejora la referencia de apariencia. Para animarla en directo hace falta además una representación deformable o un renderizador de persona suficientemente rápido. Una imagen fija no aporta superficies ocultas, articulaciones ni expresiones listas para ejecutar. La preparación con IA no demuestra fidelidad de manos o identidad durante el movimiento.
 
 Se pueden investigar representación 2D deformable, estructura 3D interna con salida 2D o renderizado neural rápido. Ninguna se presenta como solución ya elegida que conserve una foto y LSE con bajo consumo. La personalización por una sola fotografía, realismo, directo, código/modelos reutilizables y operación sin gasto son requisitos que deben evaluarse conjuntamente.

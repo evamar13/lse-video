@@ -17,6 +17,8 @@ Eva quiere mantenerse sin gasto en la prueba de vídeo. No alquilar GPU, comprar
 
 ## Preparación habitual de fotos (preferencia de Eva)
 
+Seguir AVATAR_MODULAR.md: manos/brazos y estructura de cuerpo reutilizables, color/proporciones/ropa adaptables y cara/cuello personalizados. Preparar apariencia una vez y animar controles compartidos en directo. No impulsar difusión de vídeo como ruta de Twitch. No sustituir la salida fotográfica/2D por una estética 3D visible ni exigir trabajo gráfico manual a la persona. Boca/expresiones requieren controles LSE, y la adaptación de proporciones debe preservar contactos; no tratarlos como problemas ya resueltos.
+
 Aceptar fotos cotidianas y preparar la referencia como parte del proceso, siguiendo PREPARACION_FOTOS.md. No exigir una foto perfecta. Revisar primero; reutilizar si sirve y usar imagegen para adaptar cuando haga falta, sin cargar IA local por defecto. Conservar identidad, original y versiones; señalar regiones reconstruidas. Máximo dos candidatas por caso, sin regeneración en cada vídeo. Solicitar revisión de apariencia antes de animar y no confundirla con validación de LSE. Usar preparar_referencia.py para los nuevos casos y resolver_referencia() para obtener la candidata aceptada. Nunca marcar una aceptación del usuario por suposición. El flujo asistido no equivale a una aplicación automática desplegada.
 
 ## Datos privados (26 de noviembre de 2026)
