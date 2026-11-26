@@ -13,12 +13,20 @@ flowchart TD
     D --> K[Compilador de movimientos]
     K --> E[Secuencia temporal de movimientos]
     E --> F[Generador de vídeo fotorrealista]
-    I[Apariencia autorizada de referencia] --> F
+    U[Foto cotidiana autorizada] --> P[Revisar encuadre, visibilidad y calidad]
+    P --> Q[Reutilizar o preparar candidata con IA]
+    Q --> R[Revisión de apariencia por la persona]
+    R --> I[Apariencia aceptada y reutilizable]
+    I --> F
     F --> G[Comprobación técnica y lingüística]
     G --> H[Vídeo 2D y futura salida OBS/Twitch]
 ```
 
 La LSE es la lengua de destino. Ni un modelo entrenado con otra lengua de signos ni un diccionario palabra-signo resuelven por sí solos la traducción. No se exige un personaje 3D visible ni trabajo de modelado manual. Una representación 3D interna puede conservar profundidad, orientación y contactos; no determina la estética final.
+
+## Preparación de apariencia, una vez por referencia
+
+La entrada habitual es una foto cotidiana. El proceso evalúa si puede reutilizarse o necesita preparación con IA; no exige una foto perfecta al usuario. Sigue [PREPARACION_FOTOS.md](PREPARACION_FOTOS.md), conserva original y reconstrucciones, y obtiene aceptación explícita de apariencia antes de animar. Esta rama se realiza al crear/cambiar referencia y se reutiliza después; no se regenera en cada mensaje. El gestor privado y el prompt están implementados; la evaluación/edición se realiza actualmente con el asistente y imagegen, sin integración automática desde una aplicación de subida de fotos.
 
 ## 1. Audio → texto
 

@@ -1,0 +1,7 @@
+Use case: identity-preserve.
+Edit target: the user's uploaded photograph. Prepare ONE photorealistic appearance reference for later pose-driven animation.
+Preserve the person's recognizable facial features, apparent age, hair, skin tone, visible body proportions and clothing. Do not beautify, slim, change age, or add accessories.
+Use the framing and aspect ratio required by the selected animation model. Unless that model needs a different layout, use a frontal head-to-mid-thigh composition with margin around the head, arms and hands. Neutral matte background and even frontal lighting. Neutral expression, gaze toward camera, lips gently closed.
+When necessary, uncross and separate the arms, expose wrists, and reconstruct missing regions plausibly. Both hands should be fully visible, anatomically coherent, with five distinct fingers including thumbs, naturally relaxed and slightly separated. Avoid occlusion by clothing or torso. Do not depict a sign or imply linguistic validation.
+Preserve already suitable regions. Never treat reconstructed hands, body or hidden features as verified attributes of the person. No text, logos, watermark, collage, or cartoon styling.
+Inspect the result, show it for appearance review, and register reconstructed regions. This is a candidate appearance reference, not a trained avatar, animation or verified signing example.

@@ -14,7 +14,7 @@ La boca sigue la LSE, no una sincronización labial literal del castellano. Dicc
 2. **Muestra lingüística acotada.** Seleccionar textos y ejemplos relacionados; preparar un plan revisado con personas competentes en LSE. Cierre: significado, estructura, referencias espaciales y canales no manuales revisados. Si no hay colaboración experta, mantener la validación pendiente y continuar con tareas técnicas independientes.
 3. **Movimiento controlado.** Extraer o representar secuencias de muestra y comprobar dedos, orientaciones, contactos, rostro y transiciones. Cierre: errores documentados y representación reproducible. Coincidencia de puntos no equivale a comprensión.
 4. **Apariencia fotorrealista fija.** Auditar un generador existente y comparar original, movimiento y resultado. Cierre: fidelidad técnica y comprensión evaluadas; no se requiere modelado gráfico manual ni personaje 3D visible.
-5. **Personalización.** Cambiar la apariencia sobre secuencias revisadas, con permisos y consentimiento adecuados. Medir material de referencia necesario; no prometer que una foto baste.
+5. **Personalización.** Aceptar fotos cotidianas y preparar la referencia como etapa habitual según PREPARACION_FOTOS.md: revisión, reutilización o adaptación con IA, conservación de originales, identificación de reconstrucciones y aceptación de apariencia. Cambiar la apariencia sobre secuencias revisadas, con permisos adecuados. Medir material necesario; pedir otra toma solo si no se consigue una referencia utilizable, sin prometer que cualquier foto baste.
 6. **Voz y directo.** Añadir reconocimiento de voz, segmentación, contexto, sincronización y salida OBS. Medir la cadena completa antes de una integración distribuida con Twitch.
 
 ## Qué revisa cada persona
@@ -24,6 +24,8 @@ La boca sigue la LSE, no una sincronización labial literal del castellano. Dicc
 - Personas sordas signantes y especialistas: comprensión, significado y calidad lingüística.
 
 ## Estado real
+
+Preparación de fotos: requisito habitual incorporado a arquitectura e instrucciones. Implementados el gestor privado `preparar_referencia.py` y el prompt reutilizable; el asistente ejecuta la edición con imagegen cuando procede. La primera candidata de apariencia ya se generó; no se ha animado. La aplicación automática de subida/preparación, evaluación automática de identidad y generación fotorrealista siguen pendientes.
 
 Implementados: auditor ELAN, descarga parcial de tres originales, página local de revisión, contrato 0.1 de observaciones con exportador/validador, e inventario de glosas presentes en los tres fragmentos. Primera extracción Holistic CPU ejecutada en un fragmento de 5,8 segundos, con coordenadas observadas y vista de seguimiento; ver MOVIMIENTO.md. Pruebas de metadatos, referencias y acceso parcial al ZIP. Los originales no tienen audio; las traducciones están en anotaciones escritas. No hay transcripción de voz, traductor, generador de personas, avatar personalizado ni integración Twitch implementados. El extractor experimental no equivale a un plan de movimientos validado.
 

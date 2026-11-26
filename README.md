@@ -95,6 +95,10 @@ python3 preparar_bancolse.py
 
 Abrir `outputs/bancolse/VALIDAR.html`: fotografías y dibujos de hola, gracias y por favor con fuente y licencia. Muestra educativa no comercial, sin IA ni entrenamiento. Originales e inventario SHA-256 en `datos/bancolse/`, excluidos de Git. Las descargas están limitadas a tres entradas y 20 MiB por ejecución. No reutiliza recursos de YouTube sin verificar su licencia. Alcance y permisos en [FUENTES.md](FUENTES.md).
 
-## Diseño del glosario
+## Preparación habitual de fotos
+
+Se aceptan fotos cotidianas: el proceso revisa y reutiliza o prepara una candidata con IA, conserva originales y registra aceptación de apariencia antes de animar. [Flujo, límites y gestor privado](PREPARACION_FOTOS.md). El gestor no llama a APIs ni valida identidad automáticamente; la preparación con IA la ejecuta actualmente el asistente. La integración automática para usuarios sigue pendiente.
+
+## Diseño del glosario y movimientos
 
 [GLOSARIO.md](GLOSARIO.md) define la ampliación propuesta: conceptos/signos y construcciones con descripción en castellano, fuentes y mapeo a movimientos. La IA propondría el plan y explicaría sus elecciones; un compilador convertiría parámetros conocidos a comandos. Todavía no hay glosario validado, traductor ni compilador implementados.
