@@ -2,6 +2,20 @@
 
 ## Incorporación práctica — 26 de noviembre de 2026
 
+### Ampliación para análisis exclusivamente privado
+
+Autorización de Eva: aprovechar las fuentes ya investigadas para análisis de datos, sin publicar materiales ni derivados. Los permisos de terceros se comprueban por fuente; no se presume la excepción de minería. No se inicia entrenamiento ni se envían datos a APIs de IA. Datos e inventarios están en `datos/fuentes-privadas/`, fuera de Git, con directorios de acceso exclusivo al usuario. El panel local es `outputs/fuentes/ESTADO.html`.
+
+`fuentes_privadas.py` registra nueve fuentes, distinguiendo acceso y uso real. Hay muestras de cuatro fuentes: UVigo y BancoLSE ya existentes, más iSignos y dactilología. Los otros cinco registros no son corpus descargados. Comandos: `python3 fuentes_privadas.py` actualiza inventario/panel; `--incorporar isignos` o `--incorporar dactilologia` descarga únicamente las muestras acotadas. No sobrescribe archivos ni amplía presupuestos al fallar.
+
+- **iSignos/RADIS**: [portal](https://isignos.uvigo.es/), [ficha seleccionada en castellano](https://isignos.uvigo.es/es/metadata/16a90a5a-3406-4544-81d5-2e9f10905440). Un vídeo de 168,04 s, 720×576, decodificación comprobada; WebVTT castellano con 229 marcas de subtítulos y guía de anotación descargados. No se han extraído glosas ni validado alineación lingüística. Atribución: Cabeza, Carmen / García-Miguel, José M. (dirs.), iSignos, versión 1.0, Universidade de Vigo. El texto declara CC BY-NC 4.0, aunque el enlace dirige a BY 4.0: se archiva la discrepancia y se limita el uso a no comercial. Presupuestos: vídeo 30 MB, guía 3 MB, cada página/subtítulo 0,5 MB. No se descarga la colección.
+- **Dactilología LSE**: [registro y atribución](https://zenodo.org/records/21351703), DOI 10.5281/zenodo.21351703, CC BY 4.0 declarada en la ficha. Una imagen de variante Original del ZIP 192: 14.014 bytes; transferencia parcial observada 11.269.378 bytes, incluidos los bloques necesarios para localizarla. Conserva nombre de entrada, CRC-32 y SHA-256; no se verifica el MD5 del ZIP completo ni se descarga el archivo de 12,3 GB. La extracción detiene la búsqueda tras 256 cabeceras, limita entrada/descompresión a 1 MB y transferencia a 24 MiB. Es una muestra de acceso, no representativa ni una anotación verdadera de dedos. No sirve como corpus de frases. Atribución completa en el inventario local y ficha original.
+- **LSE-HoReCo**: [ficha oficial](https://taalmaterialen.ivdnt.org/download/lse_horeco/), CC BY-NC 3.0. Traducciones español–LSE; requiere cuenta para descargar. Pendiente de acceso autorizado, sin eludir login ni descargar el ZIP.
+- **Cervantes**: metadatos CC0 confirmados; vídeos y acceso al registro concreto pendientes. No se extiende CC0 a las grabaciones.
+- **Congreso y YouTube**: candidatos documentados, sin incorporación como corpus mientras no se resuelva el uso concreto. La privacidad no sustituye las condiciones de acceso ni los derechos aplicables.
+
+**Actualización DILSE:** la [página específica indexada](https://fundacioncnse-dilse.org/condiciones-uso.php) declara CC BY-NC-SA 3.0 y añade condiciones, entre ellas una prohibición de poner fotos/vídeos a disposición de terceros como diccionario. La respuesta directa actual devuelve un cliente Flutter y no ese texto legible. Se registra esta evidencia, sin afirmar que resuelve las contradicciones con el aviso general o todos los usos de IA. Consulta posible; descarga/extracción pendiente de comprobar recursos y condiciones actuales. No se ha incorporado material de DILSE ni replicado su diccionario.
+
 Eva autoriza aprovechar los recursos reutilizables. La autorización no sustituye los permisos de sus titulares. No se inicia entrenamiento ni descarga masiva.
 
 ### BancoLSE: referencia educativa no comercial incorporada
