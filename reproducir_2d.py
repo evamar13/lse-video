@@ -17,6 +17,28 @@ FEATURES = [[61,40,37,0,267,270,291,321,314,17,84,91,61],
             [78,81,13,311,308,402,14,87,78],
             [33,160,158,133,153,144,33],[362,385,387,263,373,380,362],
             [70,63,105,66,107],[336,296,334,293,300]]
+FINGERS=[('Pulgar',[0,1,2,3,4],'#ac506a'),('Índice',[0,5,6,7,8],'#267cba'),
+         ('Medio',[5,9,10,11,12],'#9a6921'),('Anular',[9,13,14,15,16],'#7655af'),
+         ('Meñique',[13,17,18,19,20],'#207e61')]
+
+
+def hand_detail(points,width,height):
+    if not points:
+        return '<p class="alert">Mano no detectada. No se reconstruyen dedos ocultos.</p>'
+    xs=[p['x']*width for p in points];ys=[p['y']*height for p in points]
+    side=max(max(xs)-min(xs),max(ys)-min(ys),20)*1.5
+    cx=(min(xs)+max(xs))/2;cy=(min(ys)+max(ys))/2
+    result=[f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{cx-side/2:.3f} {cy-side/2:.3f} {side:.3f} {side:.3f}" role="img" aria-label="Detalle de las 21 articulaciones observadas">']
+    # Grosor en unidades relativas al encuadre; zoom no implica más precisión.
+    def coord(i):return f'{xs[i]:.3f},{ys[i]:.3f}'
+    result.append(f'<polygon points="{" ".join(coord(i) for i in [0,5,9,13,17])}" fill="#e8e2d5" stroke="#8a8a80" stroke-width="{side*.004}"/>')
+    for name,chain,color in FINGERS:
+        result.append(f'<polyline points="{" ".join(coord(i) for i in chain)}" fill="none" stroke="{color}" stroke-width="{side*.012}" stroke-linecap="round" stroke-linejoin="round"><title>{name}</title></polyline>')
+        for i in chain[1:]:
+            result.append(f'<circle cx="{xs[i]:.3f}" cy="{ys[i]:.3f}" r="{side*.012}" fill="white" stroke="{color}" stroke-width="{side*.005}"><title>{name} · punto {i}</title></circle>')
+            result.append(f'<text x="{xs[i]+side*.018:.3f}" y="{ys[i]-side*.015:.3f}" font-size="{side*.035}" fill="{color}">{i}</text>')
+    result.append(f'<circle cx="{xs[0]}" cy="{ys[0]}" r="{side*.013}" fill="#4a6159"><title>0 · muñeca</title></circle></svg>')
+    return ''.join(result)
 
 
 def validate(observation):
@@ -54,7 +76,11 @@ def svg_frame(frame, width, height):
         tag = 'polygon' if close else 'polyline'
         result.append(f'<{tag} points="{coords}" fill="{"#cadbd7" if close else "none"}" stroke="{color}" stroke-width="{stroke}" stroke-linecap="round" stroke-linejoin="round"/>')
 
-    pose = groups['pose']
+    pose = [dict(p) for p in groups['pose']]
+    # Solo anclaje visual: no modificar la observación original de cuerpo/manos.
+    if pose:
+        for name,index in [('left_hand',15),('right_hand',16)]:
+            if groups[name]:pose[index]=groups[name][0]
     line(pose,[11,12,24,23], '#728681',2,True)
     for a,b in BODY:
         line(pose,[a,b],'#58716b',6)
@@ -116,6 +142,20 @@ def build():
     payload = dict(svg=svgs, times=[f['t_ms'] for f in frames],
                    missing=[not f['points']['left_hand'] or not f['points']['right_hand'] for f in frames],
                    start=observation['start_ms']/1000, fps=observation['sample_fps'])
+    payload['hands']=[[hand_detail(f['points'][name],width,height) for name in ('left_hand','right_hand')] for f in frames]
+    candidate_file=BASE/'outputs/manos-detalle/candidatos.json'
+    payload['experiments']={}
+    if candidate_file.exists():
+        from copy import deepcopy
+        experiment=json.loads(candidate_file.read_text())
+        if experiment['source_motion_sha256']!=hashlib.sha256(motion.read_bytes()).hexdigest():
+            raise ValueError('Los candidatos pertenecen a otra extracción')
+        for record in experiment['frames']:
+            i=record['index'];candidate=deepcopy(frames[i])
+            candidate['points'].update(record['matched'])
+            payload['experiments'][str(i)]=dict(svg=svg_frame(candidate,width,height),
+                hands=[hand_detail(candidate['points'][name],width,height) for name in ('left_hand','right_hand')],
+                accepted=bool(record['matched']),status=record['status'])
     template = (BASE/'reproduccion_2d.html').read_text()
     page = template.replace('__VIDEO__',html.escape(video_name,quote=True)).replace('__TRANSLATION__',html.escape(parser.text))
     page = page.replace('__DATA__',json.dumps(payload,ensure_ascii=False).replace('<','\\u003c'))
@@ -125,6 +165,8 @@ def build():
                   missing_left_hand_ms=missing, motion_sha256=hashlib.sha256(motion.read_bytes()).hexdigest(),
                   new_inference=False, interpolation=False, linguistic_review='pending',
                   source=observation['source_url'], license=observation['license'])
+    report['hand_candidate_frames']=sum(bool(r['accepted']) for r in payload['experiments'].values())
+    report['hand_candidate_status']='experimental_not_validated' if payload['experiments'] else 'not_available'
     (output/'resumen.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(dict(vista=str(output/'VALIDAR.html'),**report),ensure_ascii=False))
 

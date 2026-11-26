@@ -4,6 +4,7 @@
 <style>
 *{box-sizing:border-box}body{font:17px/1.5 system-ui;background:#f5f0e7;color:#263e39;margin:0;padding:32px;max-width:1600px;margin:auto}h1{font:36px Georgia;margin:10px 0}h2{font-size:18px;margin:0 0 12px}small{color:#586a63}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:24px 0}section{background:white;padding:16px;border:1px solid #dedbd1;border-radius:14px}video,svg{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#172229}#figure svg{background:#f5f0e7}button,select{font:inherit;padding:9px 15px;border-radius:8px;border:1px solid #9aa9a0;background:white;color:#263e39;cursor:pointer}button:disabled{opacity:.5;cursor:wait}#play{background:#315f51;color:white}.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}input{flex:1;min-width:160px;accent-color:#315f51}.reference{border-left:4px solid #b29467;padding:12px 18px;background:#fffaf0}.alert{color:#9b4426;min-height:1.5em}#frame{font-variant-numeric:tabular-nums}footer{font-size:14px;margin-top:24px}@media(max-width:950px){.grid{grid-template-columns:1fr}body{padding:20px}video,svg{max-height:340px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
 </style>
+<style>#leftDetail svg,#rightDetail svg{aspect-ratio:1;background:#faf7ef;max-height:330px}#handStatus{font-size:15px;color:#596a62}</style>
 <small>LSE VIDEO · EXPERIMENTO LOCAL NO COMERCIAL</small>
 <h1>Del vídeo al movimiento 2D</h1>
 <p>La misma muestra en tres vistas. La figura reproduce puntos observados: todavía no interpreta texto ni genera una persona realista.</p>
@@ -15,6 +16,13 @@
 </div>
 <div class="controls"><button id="play" disabled>Reproducir</button><button id="previous" aria-label="Fotograma anterior">←</button><button id="next" aria-label="Fotograma siguiente">→</button><input id="seek" type="range" min="0" max="28" step="1" value="0" aria-label="Fotograma de la muestra"><label>Velocidad <select id="speed"><option value="0.5">0,5×</option><option value="1" selected>1×</option></select></label><output id="frame"></output></div>
 <p class="alert" id="warning" role="status"></p>
+<section><h2>Laboratorio de manos · 21 puntos por mano</h2>
+<label>Observación <select id="handMode"><option value="initial">Captura inicial</option><option value="crop">Recortes individuales · experimental</option></select></label>
+<p id="handStatus"></p><div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div><b>Mano izquierda</b><div id="leftDetail"></div></div><div><b>Mano derecha</b><div id="rightDetail"></div></div></div>
+<p><span style="color:#ac506a">Pulgar 1–4</span> · <span style="color:#267cba">Índice 5–8</span> · <span style="color:#9a6921">Medio 9–12</span> · <span style="color:#7655af">Anular 13–16</span> · <span style="color:#207e61">Meñique 17–20</span>. Punto 0: muñeca.</p>
+<small>El encuadre se ajusta a cada mano para inspeccionar sus articulaciones. Ampliar no recupera detalle perdido por desenfoque u oclusión. La muñeca del brazo se conecta visualmente a la de la mano, conservando los datos originales. La segunda captura es un candidato, no una corrección validada.</small>
+<p><a href="../manos-detalle/VALIDAR.html">Comparar fotografías y ambas detecciones</a></p>
+</section>
 <p><b>Qué revisar:</b> visibilidad de dedos y boca, pérdidas de seguimiento y diferencias entre el original y la figura. La revisión de comprensión en LSE está pendiente de personas competentes.</p>
 <footer><a href="https://zenodo.org/records/10234465">Corpus y autoría</a> · CC BY-NC 4.0 según ficha institucional · Uso experimental no comercial, sin redistribución automática.<br>Figura técnica plana: no resuelve orientación de palmas, oclusiones ni contactos. Una misma proyección 2D puede ocultar configuraciones distintas. La baja frecuencia puede perder movimientos rápidos.</footer>
 <script>
@@ -24,7 +32,7 @@ const original=document.getElementById('original'), overlay=document.getElementB
 let timer=null,index=0,ready=false;
 const duration=(data.times.at(-1)+1000/data.fps)/1000;
 seek.max=data.times.length-1;
-function draw(i){index=Math.max(0,Math.min(data.times.length-1,i));figure.innerHTML=data.svg[index];seek.value=index;document.getElementById('frame').textContent=`${index+1}/${data.times.length} · ${(data.times[index]/1000).toFixed(1)} s`;warning.textContent=data.missing[index]?'Seguimiento incompleto: una mano no fue detectada y no se dibuja.':'';}
+function draw(i){index=Math.max(0,Math.min(data.times.length-1,i));const experiment=data.experiments[String(index)];const useCrop=document.getElementById('handMode').value==='crop';const selected=useCrop&&experiment?experiment:{svg:data.svg[index],hands:data.hands[index]};figure.innerHTML=selected.svg;document.getElementById('leftDetail').innerHTML=selected.hands[0];document.getElementById('rightDetail').innerHTML=selected.hands[1];document.getElementById('handStatus').textContent=useCrop?(experiment?.accepted?'Segunda observación de recortes del original. Pendiente de validación.':'Sin candidato asociable: se conserva la captura inicial.'):'Captura inicial ampliada. Los números identifican articulaciones; no indican confianza.';seek.value=index;document.getElementById('frame').textContent=`${index+1}/${data.times.length} · ${(data.times[index]/1000).toFixed(1)} s`;warning.textContent=data.missing[index]?'Seguimiento incompleto: una mano no fue detectada y no se dibuja.':'';}
 function stop(){original.pause();if(timer!==null)clearInterval(timer);timer=null;play.textContent='Reproducir';}
 function select(i){stop();draw(i);if(ready){original.currentTime=data.start+data.times[index]/1000;overlay.currentTime=data.times[index]/1000;}}
 function tick(){const t=original.currentTime-data.start;if(t>=duration){stop();select(0);return;}let i=0;while(i+1<data.times.length&&data.times[i+1]<=t*1000)i++;if(i!==index)draw(i);if(Math.abs(overlay.currentTime-t)>.12)overlay.currentTime=Math.max(0,t);}
@@ -36,6 +44,7 @@ document.getElementById('previous').onclick=()=>select(index-1);
 document.getElementById('next').onclick=()=>select(index+1);
 seek.oninput=()=>select(Number(seek.value));
 document.getElementById('speed').onchange=e=>{original.playbackRate=Number(e.target.value);};
+document.getElementById('handMode').onchange=()=>draw(index);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
 window.addEventListener('pagehide',stop);
 draw(0);
@@ -48,6 +57,7 @@ if(location.search==='?test=1'){
   document.body.dataset.phase='controls';
   const checks=[data.svg.length===29,original.videoWidth>0,overlay.videoWidth>0];
   select(1);checks.push(index===1&&seek.value==='1');
+  document.getElementById('handMode').value='crop';draw(0);checks.push(document.getElementById('leftDetail').querySelectorAll('circle').length===21);document.getElementById('handMode').value='initial';
   select(13);checks.push(data.missing[index]&&figure.querySelector('[data-channel="left_hand"]').getAttribute('data-present')==='false');
   original.currentTime=data.start+1.21;tick();checks.push(index===6&&Math.abs(overlay.currentTime-1.21)<.01);
   document.body.dataset.phase='play';original.play().catch(()=>{});checks.push(!original.paused);stop();checks.push(original.paused&&timer===null);
