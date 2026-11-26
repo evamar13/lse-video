@@ -10,6 +10,8 @@ La boca sigue la LSE, no una sincronización labial literal del castellano. Dicc
 
 ## Hitos
 
+Prioridad de viabilidad de directo: [DIRECTO.md](DIRECTO.md). Evaluar reproducción interactiva y latencia antes de convertir el ensayo offline de apariencia en dependencia de Twitch. El presupuesto de pruebas es cero; no sustituirlo por cómputo local pesado ni infraestructura gratuita supuesta.
+
 1. **Inventario y representación intermedia.** Inspeccionar las anotaciones disponibles, sus referencias y carencias. Definir el glosario de conceptos/signos/construcciones, descripción legible, fuentes y mapeo de movimiento; después el contrato del plan y su compilador. No inventar traducciones validadas ni datos que faltan en la fuente. Cierre: campos, coordenadas, unidades, estados y evidencias definidos; plan lingüístico separado de poses estimadas.
 2. **Muestra lingüística acotada.** Seleccionar textos y ejemplos relacionados; preparar un plan revisado con personas competentes en LSE. Cierre: significado, estructura, referencias espaciales y canales no manuales revisados. Si no hay colaboración experta, mantener la validación pendiente y continuar con tareas técnicas independientes.
 3. **Movimiento controlado.** Extraer o representar secuencias de muestra y comprobar dedos, orientaciones, contactos, rostro y transiciones. Cierre: errores documentados y representación reproducible. Coincidencia de puntos no equivale a comprensión.

@@ -2,6 +2,8 @@
 
 Esta especificación define el sistema que se quiere construir. Primero se diseña la representación lingüística y de movimientos; la reproducción visual se evalúa por separado. Las capacidades pendientes no se presentan como implementadas.
 
+Actualización de viabilidad de directo: [DIRECTO.md](DIRECTO.md). En Twitch la ruta prioritaria es animar una representación preparada; la generación por difusión de vídeos completos se considera un ensayo offline de apariencia. La personalización realista desde una foto para esa ruta interactiva sigue sin resolver. No presentar MimicMotion como backend de directo ni el presupuesto cero como disponibilidad gratuita garantizada.
+
 ## Flujo de uso
 
 ```mermaid
@@ -12,7 +14,7 @@ flowchart TD
     N --> D[Plan tipado de signos, espacio y elementos no manuales]
     D --> K[Compilador de movimientos]
     K --> E[Secuencia temporal de movimientos]
-    E --> F[Generador de vídeo fotorrealista]
+    E --> F[Representación animable y renderizado de salida 2D]
     U[Foto cotidiana autorizada] --> P[Revisar encuadre, visibilidad y calidad]
     P --> Q[Reutilizar o preparar candidata con IA]
     Q --> R[Revisión de apariencia por la persona]

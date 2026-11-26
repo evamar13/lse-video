@@ -11,6 +11,10 @@
 - Seguir ARQUITECTURA.md: voz castellana → texto → plan lingüístico LSE → movimientos → vídeo. Boca y rostro siguen la LSE, no el audio castellano fonema a fonema. No usar un diccionario como traductor de frases.
 - Eva revisa apariencia y uso, no corrección lingüística. Mantener esa revisión separada de la de personas competentes en LSE.
 
+## Directo y presupuesto
+
+Eva quiere mantenerse sin gasto en la prueba de vídeo. No alquilar GPU, comprar créditos, activar planes de pago o recurrir a servicios facturables automáticamente. No usar IA pesada local para sustituir un coste remoto sin respetar el confort del Mac. Seguir DIRECTO.md: Twitch requiere estudiar animación interactiva de una representación preparada, no generar vídeos por difusión a cada intervención. La prueba de apariencia offline no demuestra viabilidad en directo. Foto personalizada y movimientos correctos son criterios independientes; no prometer su combinación sin ensayo. No subir fotos ni corpus a un servicio gratuito por suponer que eso está autorizado.
+
 ## Preparación habitual de fotos (preferencia de Eva)
 
 Aceptar fotos cotidianas y preparar la referencia como parte del proceso, siguiendo PREPARACION_FOTOS.md. No exigir una foto perfecta. Revisar primero; reutilizar si sirve y usar imagegen para adaptar cuando haga falta, sin cargar IA local por defecto. Conservar identidad, original y versiones; señalar regiones reconstruidas. Máximo dos candidatas por caso, sin regeneración en cada vídeo. Solicitar revisión de apariencia antes de animar y no confundirla con validación de LSE. Usar preparar_referencia.py para los nuevos casos y resolver_referencia() para obtener la candidata aceptada. Nunca marcar una aceptación del usuario por suposición. El flujo asistido no equivale a una aplicación automática desplegada.
